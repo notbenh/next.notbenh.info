@@ -1,4 +1,4 @@
-# this is myapp.rb referred to above
+require 'rubygems'
 require 'sinatra'
 get '/' do
   "Worked on dreamhost"
