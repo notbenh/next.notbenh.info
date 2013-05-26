@@ -1,0 +1,76 @@
+<!-- -*- mode:javascript -*--->
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>notbenh.info</title>
+  <meta name="Description"
+        content="notbenh does silly things on the internet."/>
+  <script src="assets/vendor/jquery.terminal/js/jquery-1.7.1.min.js"></script>
+  <script src="assets/vendor/jquery.terminal/js/jquery.mousewheel-min.js"></script>
+  <script src="assets/vendor/jquery.terminal/js/jquery.terminal-min.js"></script>
+  <link href="assets/vendor/jquery.terminal/css/jquery.terminal.css" rel="stylesheet"/>
+<script>
+
+jQuery(function($, undefined) {
+    $('#terminal').terminal(function(command, term) {
+        var args = command.split(' ');
+        var verb = args.shift();
+        console.info('INPUT: ', command, args, args.length, roll(args));
+
+        if (command !== '') {
+            try {
+                var exec = verb + args.length > 0 ? '(args)' : '()';
+
+                console.info('params',args, exec);
+                var result = window.eval(exec);
+                if (result !== undefined) {
+                    term.echo(new String(result));
+                }
+            } catch(e) {
+                term.error(new String(e));
+            }
+        } else {
+           term.echo('');
+        }
+    }, {
+        greetings: 'welcome to notbenh.info... do something by typing',
+        name: 'notbenh_shell',
+        height: 200,
+        prompt: '> '});
+});
+
+function roll (dice){
+  console.info('DICE: ', dice)
+  var results = [];
+  var re = /^(\d*)?d(\d+)/;
+  dice.forEach(function(die){
+      var parse = re.exec(die);
+      console.info("PARSE: ", parse)
+      var count = 1;
+      if(parse !== null){
+        cound = parse [1];
+      }
+      var max   = parse[2];
+      for(i=0; i< count; i++){
+        results.push('d' + max + ': ' + getRandomInt(1,max))
+      }
+    }
+  )
+  return results.join("\n");
+}
+
+function flip (){ return getRandomInt(0,1)}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+</script>
+</head>
+<body>
+    <h1>AHHHHHH</h1>
+    <div id='terminal'></div>
+</body>
+</html>
