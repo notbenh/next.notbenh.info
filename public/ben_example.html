@@ -36,6 +36,12 @@ jQuery(function($, undefined) {
         prompt: '> '});
 });
 
+var docs = {};
+
+docs.roll = { GOAL: 'roll some dice',
+              EXAMPLES: ['roll d20', 'roll 3d10', 'roll 5d2 d4 d13'],
+              SYNTAX: 'a die is defined by "d" followed by a digit. you can roll the same die multipe times by preceeding the die with the number of times to roll'
+            }
 function roll (dice){
   var results = [];
   var re = /^(\d*)?d(\d+)/;
@@ -51,10 +57,52 @@ function roll (dice){
   return results.join("\n");
 }
 
+docs.flip = {GOAL: 'flip a coin'}
 function flip (){ return getRandomInt(0,1)}
 
+docs.reload = {GOAL: 'reload the page'}
 function reload () { window.location.reload() }
 
+
+function help (verbs){
+  var buffer = ''
+  if(verbs.length === 0){
+    buffer += "here are some of the helpful things you can do: \n"
+    for( var verb in docs ){
+      buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
+    }
+  }
+  else {
+    verbs.forEach(function(verb){
+      console.info('VERB IS ' + verb)
+      if( docs[verb] !== undefined ) {
+        console.info('FOUND ONE: ', docs[verb]);
+        buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
+        // SYNTAX
+        if( docs[verb]['SYNTAX'] !== undefined) {
+          buffer += "  SYNTAX: " + docs[verb]['SYNTAX'] + "\n"
+        }
+        // EXAMPLES
+        if( docs[verb]['EXAMPLES'] !== undefined){
+          buffer += "  EXAMPLES:\n"
+          docs[verb]['EXAMPLES'].forEach(function(example){
+            buffer += '    ' + example + "\n"
+          })
+        }
+        // NOTE
+        if( docs[verb]['NOTE'] !== undefined) {
+          buffer += "  NOTE: " + docs[verb]['NOTE'] + "\n"
+        }
+      }
+      else{
+        buffer += "  ERROR: I do not know how to " + verb
+      }
+    })
+  }
+  return buffer;
+}
+
+// the rest is code I have found on the internet or in old scripts, be wary
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
