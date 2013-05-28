@@ -14,16 +14,12 @@
 
 jQuery(function($, undefined) {
     $('#terminal').terminal(function(command, term) {
-        var args = command.split(' ');
-        var verb = args.shift();
-        console.info('INPUT: ', command, args, args.length, roll(args));
+        args = command.split(' ');
+        verb = args.shift();
 
         if (command !== '') {
             try {
-                var exec = verb + args.length > 0 ? '(args)' : '()';
-
-                console.info('params',args, exec);
-                var result = window.eval(exec);
+                var result = window.eval(verb + '(args)'); 
                 if (result !== undefined) {
                     term.echo(new String(result));
                 }
@@ -41,16 +37,11 @@ jQuery(function($, undefined) {
 });
 
 function roll (dice){
-  console.info('DICE: ', dice)
   var results = [];
   var re = /^(\d*)?d(\d+)/;
   dice.forEach(function(die){
       var parse = re.exec(die);
-      console.info("PARSE: ", parse)
-      var count = 1;
-      if(parse !== null){
-        cound = parse [1];
-      }
+      var count = parse[1] === undefined ? 1 : parse[1];
       var max   = parse[2];
       for(i=0; i< count; i++){
         results.push('d' + max + ': ' + getRandomInt(1,max))
@@ -61,6 +52,8 @@ function roll (dice){
 }
 
 function flip (){ return getRandomInt(0,1)}
+
+function reload () { window.location.reload() }
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
