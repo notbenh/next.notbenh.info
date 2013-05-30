@@ -1,59 +1,117 @@
-<!DOCTYPE html>
-<html lang='en'>
-  <head>
-  <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-  <!--[if lt IE 9]><script type='text/javascript' src='assets/javascript/html5.js'></script><![endif]-->
-  <link rel='stylesheet' type='text/css' href='assets/css/screen.css' />
-  <link rel='stylesheet' type='text/css' href='assets/vendor/bootstrap/css/bootstrap.min.css' />
-  <link rel='stylesheet' type='text/css' href='assets/vendor/font-awesome/css/font-awesome.min.css' />
+<!-- -*- mode:javascript -*--->
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
   <title>notbenh.info</title>
-  <style>
-    ul.nav label {
-      border:1px solid #F00;
+  <meta name="Description"
+        content="notbenh does silly things on the internet."/>
+  <script src="assets/vendor/jquery.terminal/js/jquery-1.7.1.min.js"></script>
+  <script src="assets/vendor/jquery.terminal/js/jquery.mousewheel-min.js"></script>
+  <script src="assets/vendor/jquery.terminal/js/jquery.terminal-min.js"></script>
+  <link href="assets/vendor/jquery.terminal/css/jquery.terminal.css" rel="stylesheet"/>
+<script>
 
-      heigth:200px;
+jQuery(function($, undefined) {
+    $('#terminal').terminal(function(command, term) {
+        args = command.split(' ');
+        verb = args.shift();
+
+        if (command !== '') {
+            try {
+                var result = window.eval(verb + '(args)'); 
+                if (result !== undefined) {
+                    term.echo(new String(result));
+                }
+            } catch(e) {
+                term.error(new String(e));
+            }
+        } else {
+           term.echo('');
+        }
+    }, {
+        greetings: 'welcome to notbenh.info... do something by typing',
+        name: 'notbenh_shell',
+        height: 200,
+        prompt: '> '});
+});
+
+var docs = {};
+
+docs.roll = { GOAL: 'roll some dice',
+              EXAMPLES: ['roll d20', 'roll 3d10', 'roll 5d2 d4 d13'],
+              SYNTAX: 'a die is defined by "d" followed by a digit. you can roll the same die multipe times by preceeding the die with the number of times to roll'
+            }
+function roll (dice){
+  var results = [];
+  var re = /^(\d*)?d(\d+)/;
+  dice.forEach(function(die){
+      var parse = re.exec(die);
+      var count = parse[1] === undefined ? 1 : parse[1];
+      var max   = parse[2];
+      for(i=0; i< count; i++){
+        results.push('d' + max + ': ' + getRandomInt(1,max))
+      }
     }
-    ul.nav input#shell { 
-      width: auto;
-      margin-bottom:-17px
+  )
+  return results.join("\n");
+}
+
+docs.flip = {GOAL: 'flip a coin'}
+function flip (){ return getRandomInt(0,1)}
+
+docs.reload = {GOAL: 'reload the page'}
+function reload () { window.location.reload() }
+
+
+function help (verbs){
+  var buffer = ''
+  if(verbs.length === 0){
+    buffer += "here are some of the helpful things you can do: \n"
+    for( var verb in docs ){
+      buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
     }
-    ul.nav span { margin-right: 3px; }
-  </style>
+  }
+  else {
+    verbs.forEach(function(verb){
+      console.info('VERB IS ' + verb)
+      if( docs[verb] !== undefined ) {
+        console.info('FOUND ONE: ', docs[verb]);
+        buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
+        // SYNTAX
+        if( docs[verb]['SYNTAX'] !== undefined) {
+          buffer += "  SYNTAX: " + docs[verb]['SYNTAX'] + "\n"
+        }
+        // EXAMPLES
+        if( docs[verb]['EXAMPLES'] !== undefined){
+          buffer += "  EXAMPLES:\n"
+          docs[verb]['EXAMPLES'].forEach(function(example){
+            buffer += '    ' + example + "\n"
+          })
+        }
+        // NOTE
+        if( docs[verb]['NOTE'] !== undefined) {
+          buffer += "  NOTE: " + docs[verb]['NOTE'] + "\n"
+        }
+      }
+      else{
+        buffer += "  ERROR: I do not know how to " + verb
+      }
+    })
+  }
+  return buffer;
+}
+
+// the rest is code I have found on the internet or in old scripts, be wary
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+</script>
 </head>
-
-  <body>
-    <section class='container'>
-      <nav class='navbar'>
-        <div class='navbar-inner'>
-          <a class='brand' rel='home' href='/'>notbenh.info</a>
-          <ul class='nav'>
-            <li class='divider-vertical'></li>
-            <li>
-              <label for='shell' class='icon-terminal'></label>
-              <input type='text' id='shell'></input>
-            </li>
-            <li class='divider-vertical'></li>
-            <li><a href='http://twitter.com/notbenh'><span class='icon-twitter-sign'></span>@notbenh</a></li>
-            <li><a href="https://github.com/notbenh"><span class="icon-github-sign"></span>notbenh</a></li>
-            <li><a href='https://metacpan.org/author/NOTBENH'><span class='icon-code'></span>CPAN</a></li>
-            <li><a href="http://www.linkedin.com/in/notbenh"><span class="icon-linkedin-sign"></span>LinkedIn</a></li>
-            <li><a href='http://about.notbenh.info'><span class='icon-sign-blank'></span>about</a></li>
-          </ul>
-        </div>
-      </nav>
-
-      <div class='site-banner'>
-        <!--<h1>notbenh.info</h1>-->
-        <p class='lead'>... just a bunch of silly!</p>
-      </div>
-
-      <footer class='site'>
-        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a>
-        <!--
-          This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.
-        -->
-      </footer>
-
-    </section>
-  </body>
+<body>
+    <h1>AHHHHHH</h1>
+    <div id='terminal'></div>
+</body>
 </html>
