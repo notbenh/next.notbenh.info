@@ -80,6 +80,11 @@ function yn (){ return getRandomInt(0,1) == 1 ? 'yes' : 'no'}
 docs.reload = {GOAL: 'reload the page'}
 function reload () { window.location.reload() }
 
+docs.repeat = {GOAL: 'take the URL of an image and then make a single page with a repeating background for extra sillyness',
+               TODO: 'currently this is not implimented'
+              }
+function repeat (url){ return 'TODO: --- not yet implimented ---'}
+
 function help (verbs){
   var buffer = ''
   if(verbs.length === 0){
