@@ -10,6 +10,15 @@
   <script src="assets/vendor/jquery.terminal/js/jquery.mousewheel-min.js"></script>
   <script src="assets/vendor/jquery.terminal/js/jquery.terminal-min.js"></script>
   <link href="assets/vendor/jquery.terminal/css/jquery.terminal.css" rel="stylesheet"/>
+  <style>
+    div#terminal {
+      position:absolute;
+      top: 1px;
+      right: 1px;
+      bottom: 1px;
+      left: 1px;
+    }
+  </style>
 <script>
 
 jQuery(function($, undefined) {
@@ -30,9 +39,8 @@ jQuery(function($, undefined) {
            term.echo('');
         }
     }, {
-        greetings: 'welcome to notbenh.info... do something by typing',
+        greetings: 'notbenh.info: do things typing (if you get lost ask for "help")',
         name: 'notbenh_shell',
-        height: 200,
         prompt: '> '});
 });
 
@@ -62,7 +70,6 @@ function flip (){ return getRandomInt(0,1)}
 
 docs.reload = {GOAL: 'reload the page'}
 function reload () { window.location.reload() }
-
 
 function help (verbs){
   var buffer = ''
@@ -107,11 +114,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-
 </script>
 </head>
-<body>
-    <h1>AHHHHHH</h1>
-    <div id='terminal'></div>
-</body>
+<body><div id='terminal'></div></body>
 </html>
