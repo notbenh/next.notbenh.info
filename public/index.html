@@ -71,11 +71,11 @@ function roll (dice){
   return results.join("\n");
 }
 
-docs.flip = {GOAL: 'flip a coin', TODO: 'make this report heads/tails'}
-function flip (){ return getRandomInt(0,1)}
+docs.flip = {GOAL: 'flip a coin', }
+function flip (){ return getRandomInt(0,1) == 1 ? 'heads' : 'tails'}
 
-docs.flip = {GOAL: 'random yes or no', TODO: 'make this report a nice yes/no'}
-function ym (){ return getRandomInt(0,1)}
+docs.yn = {GOAL: 'random yes or no', }
+function yn (){ return getRandomInt(0,1) == 1 ? 'yes' : 'no'}
 
 docs.reload = {GOAL: 'reload the page'}
 function reload () { window.location.reload() }
