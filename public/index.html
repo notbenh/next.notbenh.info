@@ -20,8 +20,35 @@
       left: 1px;
       overflow: auto;
     }
+    @-moz-keyframes roll { 
+      100% { 
+        -moz-transform: rotate(360deg);
+      }
+    } 
+    @-o-keyframes roll { 
+      100% { 
+        -o-transform: rotate(360deg); 
+      } 
+    } 
+    @-webkit-keyframes roll {
+      100% { 
+        -webkit-transform: rotate(360deg); 
+      } 
+    } 
+    *.barrel_roll{ 
+      -moz-animation-name: roll; 
+      -moz-animation-duration: 4s; 
+      -moz-animation-iteration-count: 1; 
+      -o-animation-name: roll; 
+      -o-animation-duration: 4s; 
+      -o-animation-iteration-count: 1; 
+      -webkit-animation-name: roll; 
+      -webkit-animation-duration: 4s; 
+      -webkit-animation-iteration-count: 1; 
+    }
   </style>
 <script>
+
 
 jQuery(function($, undefined) {
     $('#terminal').terminal(function(command, term) {
@@ -60,15 +87,27 @@ function roll (dice){
   var results = [];
   var re = /^(\d*)?d(\d+)/;
   dice.forEach(function(die){
-      var parse = re.exec(die);
-      var count = parse[1] === undefined ? 1 : parse[1];
-      var max   = parse[2];
-      for(i=0; i< count; i++){
-        results.push('d' + max + ': ' + getRandomInt(1,max))
+      if (die == 'barrel'){
+        results.push('http://notbenh.info/repeater.php?img=media%2Fbarrel.gif')
+      }
+      else{
+        var parse = re.exec(die);
+        var count = parse[1] === undefined ? 1 : parse[1];
+        var max   = parse[2];
+        for(i=0; i< count; i++){
+          results.push('d' + max + ': ' + getRandomInt(1,max))
+        }
       }
     }
   )
   return results.join("\n");
+}
+
+function barrel (type){
+  if(type[0] === 'roll'){
+    $('#terminal').addClass('barrel_roll')
+    setTimeout("$('#terminal').removeClass('barrel_roll')",4200);
+  }
 }
 
 docs.flip = {GOAL: 'flip a coin', }
@@ -157,5 +196,7 @@ function getRandomInt(min, max) {
 
 </script>
 </head>
-<body><div id='terminal'></div></body>
+<body>
+  <div id='terminal'></div>
+</body>
 </html>
