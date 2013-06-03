@@ -87,9 +87,7 @@ docs.roll = { GOAL: 'roll some dice',
               TODO: 'currently roll with out any arguments does not do anything, should give you the help text or at least tell you why you got nothing'
             }
 function roll (dice){
-  if(dice.length == 0){
-    return help(['roll'])
-  }
+  if(dice.length == 0){ return help(['roll']) }
   var results = [];
   var re = /^(\d*)?d(\d+)/;
   dice.forEach(function(die){
@@ -195,10 +193,62 @@ function help (verbs){
   return buffer;
 }
 
+
+docs.color = {GOAL: 'build a graident between two html/hex colors',
+              EXAMPLES: ['color FFF 000', 'color 01234 FEDCBA'],
+              TODO: 'currently only does two colors, inverse has not yet been implimented so you need to select to read the text, hardcoded step at 10'
+             }
+function color (colors){
+  if(colors.length == 0){ return help(['color']) }
+  function inverse(c){ return c}
+  function swatch (c){return '  [[;#'+ inverse(c) +';#' + c +';swatch]#' + c + ']'}
+  function unhex  (c){
+    if(c.length === 3){
+      rgb = /(.)(.)(.)/.exec(c);
+      return [parseInt(''.concat(rgb[1],rgb[1]),16),
+              parseInt(''.concat(rgb[2],rgb[2]),16),
+              parseInt(''.concat(rgb[3],rgb[3]),16),
+             ];
+    }
+    else {
+      rgb = /(..)(..)(..)/.exec(c)
+      return [parseInt(rgb[1],16),
+              parseInt(rgb[2],16),
+              parseInt(rgb[3],16),
+             ];
+    }
+  }
+  function rehex (r,g,b){ return ''.concat(
+    ('00' + parseInt(r).toString(16)).substr(-2),
+    ('00' + parseInt(g).toString(16)).substr(-2),
+    ('00' + parseInt(b).toString(16)).substr(-2)
+  ) }
+  
+  if(colors.length !== 2) { return 'ERROR currently color only takes two values' }
+  var step = 10; // TODO: this is hardcoded for now
+  var a = unhex(colors[0]);
+  var b = unhex(colors[1]);
+  var r_diff = (a[0]-b[0])/step;
+  var g_diff = (a[1]-b[1])/step;
+  var b_diff = (a[2]-b[2])/step;
+  var results = [];
+  for(i=0; i<= step; i++){ results.push(swatch(rehex(a[0]-(i*r_diff), a[1]-(i*g_diff), a[2]-(i*b_diff) ))) }
+  return results.join("\n")
+}
+
+
+
+
+
+
+
 // the rest is code I have found on the internet or in old scripts, be wary
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+
+
 
 </script>
 </head>
