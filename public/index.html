@@ -153,6 +153,7 @@ function github () {return 'https://github.com/notbenh'}
 function help (verbs){
   var buffer = ''
   if(verbs.length === 0){
+    buffer += "for more help on any topic ask for help followed by topic. for example if you wanted to know more about 'roll' then say 'help roll'\n";
     buffer += "here are some of the helpful things you can do: \n"
     Object.keys(docs).sort().forEach(function(verb){
       buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
@@ -161,9 +162,9 @@ function help (verbs){
   }
   else {
     verbs.forEach(function(verb){
-      console.info('VERB IS ' + verb)
+      //console.info('VERB IS ' + verb)
       if( docs[verb] !== undefined ) {
-        console.info('FOUND ONE: ', docs[verb]);
+        //console.info('FOUND ONE: ', docs[verb]);
         buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
         // SYNTAX
         if( docs[verb]['SYNTAX'] !== undefined) {
