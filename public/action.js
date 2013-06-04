@@ -5,11 +5,25 @@ Terminal = (function() {
   function Terminal(id, options) {
     this.id = id;
     this.options = options;
-    $(this.id).terminal(this.callback, this.options);
+    this.element = $(this.id).terminal(this.actions, this.options);
   }
 
-  Terminal.prototype.callback = function(comand, term) {
-    return console.info('HOLLA!');
+  Terminal.prototype.actions = {};
+
+  Terminal.prototype.docs = {};
+
+  Terminal.prototype._add_action = function(name, action, docs) {
+    this.actions[name] = function(action) {
+      var answer, e;
+      try {
+        answer = $action(arguments);
+      } catch (_error) {
+        e = _error;
+        this.error(e);
+      }
+      return this.echo(answer);
+    };
+    return this.docs[name] = docs;
   };
 
   return Terminal;

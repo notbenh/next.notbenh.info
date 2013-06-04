@@ -57,6 +57,7 @@
 <script>
 
 
+  /*
 jQuery(function($, undefined) {
     $('#terminal').terminal(function(command, term) {
         args = command.split(' ');
@@ -65,7 +66,7 @@ jQuery(function($, undefined) {
         if (command !== '') {
             try {
                 //var result = window.eval(verb + '(args)'); 
-                var result = window.eval('actions.' + verb + '.action.(args)'); 
+                var result = window.eval('actions.' + verb + '.action(args)'); 
                 if (result !== undefined) {
                     term.echo(new String(result));
                 }
@@ -80,6 +81,7 @@ jQuery(function($, undefined) {
         name: 'notbenh_shell',
         prompt: '> '});
 });
+  */
 
 
 </script>

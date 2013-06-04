@@ -1,8 +1,18 @@
 class Terminal
+  # for now assume that terminal has been loaded already
   constructor: (@id,@options) ->
-    $(@id).terminal(@callback, @options)
-  callback : (comand,term) ->
-    console.info('HOLLA!')
+    @element = $(@id).terminal(@actions, @options)
+  actions: {}
+  docs: {}
+  _add_action: (name,action,docs) ->
+    @actions[name] = (action) ->
+      try
+        answer = $action(arguments)
+      catch e
+        this.error(e)
+      this.echo answer
+    @docs[name] = docs
+
 
 ###
     $('#terminal').terminal(function(command, term) {
