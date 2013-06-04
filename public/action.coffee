@@ -1,3 +1,34 @@
+class Terminal
+  constructor: (@id,@options) ->
+    $(@id).terminal(@callback, @options)
+  callback : (comand,term) ->
+    console.info('HOLLA!')
+
+###
+    $('#terminal').terminal(function(command, term) {
+        args = command.split(' ');
+        verb = args.shift();
+
+        if (command !== '') {
+            try {
+                //var result = window.eval(verb + '(args)'); 
+                var result = window.eval('actions.' + verb + '.action(args)'); 
+                if (result !== undefined) {
+                    term.echo(new String(result));
+                }
+            } catch(e) {
+                term.error(new String(e));
+            }
+        } else {
+           term.echo('');
+        }
+    }, {
+        greetings: 'notbenh.info: do things by typing (if you get lost ask for "help")',
+        name: 'notbenh_shell',
+        prompt: '> '});
+###
+
+
 getRandomInt = (min,max) -> return Math.floor(Math.random() * (max - min + 1)) + min
 
 actions =
@@ -7,7 +38,6 @@ actions =
     SYNTAX: 'a die is defined by "d" followed by a digit. you can roll the same die multiple times by preceding the die with the number of times to roll'
     TODO: 'currently roll with out any arguments does not do anything, should give you the help text or at least tell you why you got nothing'
     action: (dice)->
-      console.info(dice)
       if dice? then return '!!! AKK HELP !!!'
       results = for die in dice
         if die == 'barrel' then 'link to rep'
