@@ -206,7 +206,7 @@ function color (colors){
   if(colors.length < 2 || colors.length > 3){ return help(['color']) }
   function inverse(c){ return c}
   //function swatch (c){return '  [[;#'+ inverse(c) +';#' + c +';swatch]#' + c + ']'}
-  function swatch (c){return '  [[;rgba(255,255,255,.2);#' + c +';swatch]#' + c + '     ]'}
+  function swatch (c){return '[[;rgba(255,255,255,.2);#' + c +';swatch]#' + c + '     ]'}
   function unhex  (c){
     if(c.length === 3){
       rgb = /(.)(.)(.)/.exec(c);
