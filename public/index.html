@@ -204,9 +204,8 @@ function help (verbs){
 }
 
 
-docs.color = {GOAL: 'build a graident between two html/hex colors',
-              EXAMPLES: ['color FFF 000', 'color 012345 FEDCBA'],
-              TODO: 'currently only does two colors, inverse has not yet been implimented so you need to select to read the text, hardcoded step at 10'
+docs.color = {GOAL: 'build a graident between two or three html/hex colors',
+              EXAMPLES: ['color FFF 000', 'color 012345 FEDCBA', 'color 12345 FEDCBA CCC'],
              }
 function color (colors){
   if(colors.length < 2 || colors.length > 3){ return help(['color']) }
