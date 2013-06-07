@@ -55,102 +55,135 @@
   </style>
 <script>
 
-
 jQuery(function($, undefined) {
-    $('#terminal').terminal(function(command, term) {
-        args = command.split(' ');
-        verb = args.shift();
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
-        if (command !== '') {
-            try {
-                var result = window.eval(verb + '(args)'); 
-                if (result !== undefined) {
-                    term.echo(new String(result));
+  function SAY (thing){
+    fn = function(){this.echo(thing)}
+    return fn
+  }
+
+  var term_docs = {
+    twitter: {GOAL:'go to my twitter'},
+    blog   : {GOAL:'go to my blog'},
+    suggest: {GOAL:'suggest new features'},
+    resume : {GOAL:'just the link to my resume'},
+    about  : {GOAL:'just the link to my about me page'},
+    github : {GOAL:'just the link to my github account'},
+    roll   : {GOAL    : 'roll some dice',
+              EXAMPLES: ['roll d20', 'roll 3d10', 'roll 5d2 d4 d13'],
+              SYNTAX  : 'a die is defined by "d" followed by a digit. you can roll the same die multipe times by preceeding the die with the number of times to roll',
+              TODO    : 'currently roll with out any arguments does not do anything, should give you the help text or at least tell you why you got nothing'
+             },
+    repeat : {GOAL: 'take the URL of an image and then make a single page with a repeating background for extra sillyness',
+              TODO: 'ideally this should just =doit= as it is possible, though we can always throw to the existing PHP thing'
+             }
+    flip   : {GOAL: 'flip a coin' },
+    yn     : {GOAL: 'random yes or no'},
+    reload : {GOAL: 'reload the page'},
+    color  : {GOAL    : 'build a graident between two html/hex colors',
+              EXAMPLES: ['color FFF 000', 'color 012345 FEDCBA'],
+              TODO    : 'currently only does two colors, inverse has not yet been implimented so you need to select to read the text, hardcoded step at 10'
+             }
+  }
+
+  var term_actions = {
+    twitter: SAY('https://twitter.com/notbenh'),
+    blog   : SAY('http:/notbenh.github.io'),
+    suggest: SAY('create an issue https://github.com/notbenh/next.notbenh.info/issues or just yell at me on twitter: https://twitter.com/notbenhyy'),
+    resume : SAY('http://resume.notbenh.info'),
+    about  : SAY('http://about.notbenh.info'),
+    github : SAY('https://github.com/notbenh'),
+    repeat : SAY('for now just got here: http://notbenh.info/repeater.php'),
+    roll   : function(dice){
+              if(dice.length == 0){ return help(['roll']) }
+              var results = [];
+              var re = /^(\d*)?d(\d+)/;
+              dice.forEach(function(die){
+                  if (die == 'barrel'){
+                    results.push('http://notbenh.info/repeater.php?img=media%2Fbarrel.gif')
+                  }
+                  else{
+                    var parse = re.exec(die);
+                    var count = parse[1] === undefined ? 1 : parse[1];
+                    var max   = parse[2];
+                    for(i=0; i< count; i++){
+                      results.push('d' + max + ': ' + getRandomInt(1,max))
+                    }
+                  }
                 }
-            } catch(e) {
-                term.error(new String(e));
+              )
+              return results.join("\n");
+             },
+    barrel : function(type){
+                if(type[0] === 'roll'){
+                  $('#terminal').addClass('barrel_roll')
+                  setTimeout("$('#terminal').removeClass('barrel_roll')",4200);
+                }
+              },
+    filp   : function(){ return getRandomInt(0,1) == 1 ? 'heads' : 'tails'},
+    yn     : function(){ return getRandomInt(0,1) == 1 ? 'yes' : 'no'},
+    reload : function(){ window.location.reload() },
+    color  : function(colors){
+              if(colors.length == 0){ return help(['color']) }
+              function inverse(c){ return c}
+              function swatch (c){return '  [[;#'+ inverse(c) +';#' + c +';swatch]#' + c + ']'}
+              function unhex  (c){
+                if(c.length === 3){
+                  rgb = /(.)(.)(.)/.exec(c);
+                  return [parseInt(''.concat(rgb[1],rgb[1]),16),
+                          parseInt(''.concat(rgb[2],rgb[2]),16),
+                          parseInt(''.concat(rgb[3],rgb[3]),16),
+                         ];
+                }
+                else {
+                  rgb = /(..)(..)(..)/.exec(c)
+                  return [parseInt(rgb[1],16),
+                          parseInt(rgb[2],16),
+                          parseInt(rgb[3],16),
+                         ];
+                }
+              }
+              function rehex (r,g,b){ return ''.concat(
+                ('00' + parseInt(r).toString(16)).substr(-2),
+                ('00' + parseInt(g).toString(16)).substr(-2),
+                ('00' + parseInt(b).toString(16)).substr(-2)
+              ) }
+              
+              if(colors.length !== 2) { return 'ERROR currently color only takes two values' }
+              var step = 10; // TODO: this is hardcoded for now
+              var a = unhex(colors[0]);
+              var b = unhex(colors[1]);
+              var r_diff = (a[0]-b[0])/step;
+              var g_diff = (a[1]-b[1])/step;
+              var b_diff = (a[2]-b[2])/step;
+              var results = [];
+              for(i=0; i<= step; i++){ results.push(swatch(rehex(a[0]-(i*r_diff), a[1]-(i*g_diff), a[2]-(i*b_diff) ))) }
+              return results.join("\n")
             }
-        } else {
-           term.echo('');
-        }
-    }, {
-        greetings: 'notbenh.info: do things by typing (if you get lost ask for "help")',
-        name: 'notbenh_shell',
-        prompt: '> '});
+
+
+
+
+
+  }
+  var term_options = { 
+    greetings: 'notbenh.info: do things by typing (if you get lost ask for "help")',
+    name: 'notbenh_shell',
+    prompt: '> '
+  };
+  $('#terminal').terminal(term_actions,term_options);
 });
 
-var docs = {};
 
-docs.roll = { GOAL: 'roll some dice',
-              EXAMPLES: ['roll d20', 'roll 3d10', 'roll 5d2 d4 d13'],
-              SYNTAX: 'a die is defined by "d" followed by a digit. you can roll the same die multipe times by preceeding the die with the number of times to roll',
-              TODO: 'currently roll with out any arguments does not do anything, should give you the help text or at least tell you why you got nothing'
-            }
-function roll (dice){
-  if(dice.length == 0){ return help(['roll']) }
-  var results = [];
-  var re = /^(\d*)?d(\d+)/;
-  dice.forEach(function(die){
-      if (die == 'barrel'){
-        results.push('http://notbenh.info/repeater.php?img=media%2Fbarrel.gif')
-      }
-      else{
-        var parse = re.exec(die);
-        var count = parse[1] === undefined ? 1 : parse[1];
-        var max   = parse[2];
-        for(i=0; i< count; i++){
-          results.push('d' + max + ': ' + getRandomInt(1,max))
-        }
-      }
-    }
-  )
-  return results.join("\n");
-}
 
-function barrel (type){
-  if(type[0] === 'roll'){
-    $('#terminal').addClass('barrel_roll')
-    setTimeout("$('#terminal').removeClass('barrel_roll')",4200);
-  }
-}
 
-docs.flip = {GOAL: 'flip a coin', }
-function flip (){ return getRandomInt(0,1) == 1 ? 'heads' : 'tails'}
-
-docs.yn = {GOAL: 'random yes or no', }
-function yn (){ return getRandomInt(0,1) == 1 ? 'yes' : 'no'}
-
-docs.reload = {GOAL: 'reload the page'}
-function reload () { window.location.reload() }
-
-docs.repeat = {GOAL: 'take the URL of an image and then make a single page with a repeating background for extra sillyness',
-               TODO: 'ideally this should just =doit= as it is possible, though we can always throw to the existing PHP thing'
-              }
-function repeat (url){ return 'for now just got here: http://notbenh.info/repeater.php'}
-
-docs.suggest = {GOAL: 'suggest new features', TODO: 'currently this is not implimented'}
-function suggest (suggestion){ return 'create an issue https://github.com/notbenh/next.notbenh.info/issues or just yell at me on twitter: https://twitter.com/notbenh'}
 
 docs.tdone = {GOAL: '[incomplete] localstore version of tdone', TODO: 'currently this is not implimented'}
 function tdone (suggestion){ return 'TODO: --- not yet implimented ---'}
 
-// docs.feedback = {GOAL: '[incomplete] give feedback', TODO: 'currently this is not implimented'}
-// function feedback (suggestion){ return 'TODO: --- not yet implimented ---'}
-
-docs.resume = {GOAL: 'just the link to my resume', TODO: 'should be more then just a link'}
-function resume (){ return 'http://resume.notbenh.info'}
-
-docs.about = {GOAL: 'just the link to my about me page', TODO: 'should be more then just a link'}
-function about (){ return 'http://about.notbenh.info'}
-
-docs.twitter = {GOAL: 'just the link to my twitter account', TODO: 'should be more then just a link'}
-function twitter (){ return 'https://twitter.com/notbenh'}
-
-docs.github = {GOAL: 'just the link to my github account', TODO: 'should be more then just a link'}
-function github () {return 'https://github.com/notbenh'}
-
-docs.blog = {GOAL: 'just the link to my blog thing', TODO: 'should be more then just a link'}
-function blog () {return 'http://notbenh.github.io/'}
 
 function help (verbs){
   var buffer = ''
@@ -197,58 +230,10 @@ function help (verbs){
 }
 
 
-docs.color = {GOAL: 'build a graident between two html/hex colors',
-              EXAMPLES: ['color FFF 000', 'color 012345 FEDCBA'],
-              TODO: 'currently only does two colors, inverse has not yet been implimented so you need to select to read the text, hardcoded step at 10'
-             }
-function color (colors){
-  if(colors.length == 0){ return help(['color']) }
-  function inverse(c){ return c}
-  function swatch (c){return '  [[;#'+ inverse(c) +';#' + c +';swatch]#' + c + ']'}
-  function unhex  (c){
-    if(c.length === 3){
-      rgb = /(.)(.)(.)/.exec(c);
-      return [parseInt(''.concat(rgb[1],rgb[1]),16),
-              parseInt(''.concat(rgb[2],rgb[2]),16),
-              parseInt(''.concat(rgb[3],rgb[3]),16),
-             ];
-    }
-    else {
-      rgb = /(..)(..)(..)/.exec(c)
-      return [parseInt(rgb[1],16),
-              parseInt(rgb[2],16),
-              parseInt(rgb[3],16),
-             ];
-    }
-  }
-  function rehex (r,g,b){ return ''.concat(
-    ('00' + parseInt(r).toString(16)).substr(-2),
-    ('00' + parseInt(g).toString(16)).substr(-2),
-    ('00' + parseInt(b).toString(16)).substr(-2)
-  ) }
-  
-  if(colors.length !== 2) { return 'ERROR currently color only takes two values' }
-  var step = 10; // TODO: this is hardcoded for now
-  var a = unhex(colors[0]);
-  var b = unhex(colors[1]);
-  var r_diff = (a[0]-b[0])/step;
-  var g_diff = (a[1]-b[1])/step;
-  var b_diff = (a[2]-b[2])/step;
-  var results = [];
-  for(i=0; i<= step; i++){ results.push(swatch(rehex(a[0]-(i*r_diff), a[1]-(i*g_diff), a[2]-(i*b_diff) ))) }
-  return results.join("\n")
-}
-
-
-
-
 
 
 
 // the rest is code I have found on the internet or in old scripts, be wary
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 
 
