@@ -65,7 +65,7 @@ jQuery(function($, undefined) {
     return fn
   }
 
-  var term_docs = {
+  var docs = {
     twitter: {GOAL:'go to my twitter'},
     blog   : {GOAL:'go to my blog'},
     suggest: {GOAL:'suggest new features'},
@@ -79,14 +79,16 @@ jQuery(function($, undefined) {
              },
     repeat : {GOAL: 'take the URL of an image and then make a single page with a repeating background for extra sillyness',
               TODO: 'ideally this should just =doit= as it is possible, though we can always throw to the existing PHP thing'
-             }
+             },
     flip   : {GOAL: 'flip a coin' },
     yn     : {GOAL: 'random yes or no'},
     reload : {GOAL: 'reload the page'},
+    // barrel : {GOAL: '360'}, // EASTEREGG
     color  : {GOAL    : 'build a graident between two html/hex colors',
               EXAMPLES: ['color FFF 000', 'color 012345 FEDCBA'],
               TODO    : 'currently only does two colors, inverse has not yet been implimented so you need to select to read the text, hardcoded step at 10'
-             }
+             },
+    tdone  : {GOAL: '[incomplete] localstore version of tdone', TODO: 'currently this is not implimented'},
   }
 
   var term_actions = {
@@ -97,6 +99,7 @@ jQuery(function($, undefined) {
     about  : SAY('http://about.notbenh.info'),
     github : SAY('https://github.com/notbenh'),
     repeat : SAY('for now just got here: http://notbenh.info/repeater.php'),
+    tdone  : SAY('TODO: --- not yet implimented ---'),
     roll   : function(dice){
               if(dice.length == 0){ return help(['roll']) }
               var results = [];
@@ -115,7 +118,7 @@ jQuery(function($, undefined) {
                   }
                 }
               )
-              return results.join("\n");
+              this.echo( results.join("\n"));
              },
     barrel : function(type){
                 if(type[0] === 'roll'){
@@ -123,8 +126,8 @@ jQuery(function($, undefined) {
                   setTimeout("$('#terminal').removeClass('barrel_roll')",4200);
                 }
               },
-    filp   : function(){ return getRandomInt(0,1) == 1 ? 'heads' : 'tails'},
-    yn     : function(){ return getRandomInt(0,1) == 1 ? 'yes' : 'no'},
+    flip   : function(){ this.echo( getRandomInt(0,1) == 1 ? 'heads' : 'tails' )},
+    yn     : function(){ this.echo( getRandomInt(0,1) == 1 ? 'yes' : 'no')},
     reload : function(){ window.location.reload() },
     color  : function(colors){
               if(colors.length == 0){ return help(['color']) }
@@ -151,7 +154,6 @@ jQuery(function($, undefined) {
                 ('00' + parseInt(g).toString(16)).substr(-2),
                 ('00' + parseInt(b).toString(16)).substr(-2)
               ) }
-              
               if(colors.length !== 2) { return 'ERROR currently color only takes two values' }
               var step = 10; // TODO: this is hardcoded for now
               var a = unhex(colors[0]);
@@ -161,13 +163,47 @@ jQuery(function($, undefined) {
               var b_diff = (a[2]-b[2])/step;
               var results = [];
               for(i=0; i<= step; i++){ results.push(swatch(rehex(a[0]-(i*r_diff), a[1]-(i*g_diff), a[2]-(i*b_diff) ))) }
-              return results.join("\n")
-            }
-
-
-
-
-
+              this.echo(results.join("\n"))
+            },
+    help   : function(verb){
+              var buffer = ''
+              if(verb === undefined){
+                buffer += "for more help on any topic ask for help followed by topic. for example if you wanted to know more about 'roll' then say 'help roll'\n";
+                buffer += "here are some of the helpful things you can do: \n"
+                Object.keys(docs).sort().forEach(function(verb){
+                  buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
+                })
+                // TODO: it would be nice if this was formated such that all the : are aligned
+              }
+              else {
+                if(docs[verb] === undefined){
+                  this.error("I do not know how to "+verb)
+                }
+                else {
+                  buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
+                  // SYNTAX
+                  if( docs[verb]['SYNTAX'] !== undefined) {
+                    buffer += "  SYNTAX: " + docs[verb]['SYNTAX'] + "\n"
+                  }
+                  // EXAMPLES
+                  if( docs[verb]['EXAMPLES'] !== undefined){
+                    buffer += "  EXAMPLES:\n"
+                    docs[verb]['EXAMPLES'].forEach(function(example){
+                      buffer += '    ' + example + "\n"
+                    })
+                  }
+                  // NOTE
+                  if( docs[verb]['NOTE'] !== undefined) {
+                    buffer += "  NOTE: " + docs[verb]['NOTE'] + "\n"
+                  }
+                  // TODO
+                  if( docs[verb]['TODO'] !== undefined) {
+                    buffer += "  TODO: " + docs[verb]['TODO'] + "\n"
+                  }
+                }
+              }
+              this.echo(buffer)
+            },
   }
   var term_options = { 
     greetings: 'notbenh.info: do things by typing (if you get lost ask for "help")',
@@ -176,67 +212,6 @@ jQuery(function($, undefined) {
   };
   $('#terminal').terminal(term_actions,term_options);
 });
-
-
-
-
-
-docs.tdone = {GOAL: '[incomplete] localstore version of tdone', TODO: 'currently this is not implimented'}
-function tdone (suggestion){ return 'TODO: --- not yet implimented ---'}
-
-
-function help (verbs){
-  var buffer = ''
-  if(verbs.length === 0){
-    buffer += "for more help on any topic ask for help followed by topic. for example if you wanted to know more about 'roll' then say 'help roll'\n";
-    buffer += "here are some of the helpful things you can do: \n"
-    Object.keys(docs).sort().forEach(function(verb){
-      buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
-    })
-    // TODO: it would be nice if this was formated such that all the : are aligned
-  }
-  else {
-    verbs.forEach(function(verb){
-      //console.info('VERB IS ' + verb)
-      if( docs[verb] !== undefined ) {
-        //console.info('FOUND ONE: ', docs[verb]);
-        buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
-        // SYNTAX
-        if( docs[verb]['SYNTAX'] !== undefined) {
-          buffer += "  SYNTAX: " + docs[verb]['SYNTAX'] + "\n"
-        }
-        // EXAMPLES
-        if( docs[verb]['EXAMPLES'] !== undefined){
-          buffer += "  EXAMPLES:\n"
-          docs[verb]['EXAMPLES'].forEach(function(example){
-            buffer += '    ' + example + "\n"
-          })
-        }
-        // NOTE
-        if( docs[verb]['NOTE'] !== undefined) {
-          buffer += "  NOTE: " + docs[verb]['NOTE'] + "\n"
-        }
-        // TODO
-        if( docs[verb]['TODO'] !== undefined) {
-          buffer += "  TODO: " + docs[verb]['TODO'] + "\n"
-        }
-      }
-      else{
-        buffer += "  ERROR: I do not know how to " + verb
-      }
-    })
-  }
-  return buffer;
-}
-
-
-
-
-
-// the rest is code I have found on the internet or in old scripts, be wary
-
-
-
 
 </script>
 </head>
