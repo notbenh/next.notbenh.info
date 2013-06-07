@@ -52,6 +52,7 @@
       -webkit-animation-duration: 4s; 
       -webkit-animation-iteration-count: 1; 
     }
+    .swatch { color: rgba(255,255,255,.5) !important }
   </style>
 <script>
 
@@ -202,9 +203,10 @@ docs.color = {GOAL: 'build a graident between two html/hex colors',
               TODO: 'currently only does two colors, inverse has not yet been implimented so you need to select to read the text, hardcoded step at 10'
              }
 function color (colors){
-  if(colors.length == 0){ return help(['color']) }
+  if(colors.length < 2 || colors.length > 3){ return help(['color']) }
   function inverse(c){ return c}
-  function swatch (c){return '  [[;#'+ inverse(c) +';#' + c +';swatch]#' + c + ']'}
+  //function swatch (c){return '  [[;#'+ inverse(c) +';#' + c +';swatch]#' + c + ']'}
+  function swatch (c){return '  [[;rgba(255,255,255,.2);#' + c +';swatch]#' + c + '     ]'}
   function unhex  (c){
     if(c.length === 3){
       rgb = /(.)(.)(.)/.exec(c);
@@ -227,7 +229,7 @@ function color (colors){
     ('00' + parseInt(b).toString(16)).substr(-2)
   ) }
   
-  if(colors.length !== 2) { return 'ERROR currently color only takes two values' }
+  ///if(colors.length !== 2) { return 'ERROR currently color only takes two values' }
   var step = 10; // TODO: this is hardcoded for now
   var a = unhex(colors[0]);
   var b = unhex(colors[1]);
@@ -235,7 +237,27 @@ function color (colors){
   var g_diff = (a[1]-b[1])/step;
   var b_diff = (a[2]-b[2])/step;
   var results = [];
-  for(i=0; i<= step; i++){ results.push(swatch(rehex(a[0]-(i*r_diff), a[1]-(i*g_diff), a[2]-(i*b_diff) ))) }
+  var a2b     = [];
+  // first resolve the first column as we know we will always want that
+  for(i=0; i<= step; i++){ a2b.push([ a[0]-(i*r_diff), a[1]-(i*g_diff), a[2]-(i*b_diff) ]) }
+  if(colors[2] !== undefined){
+    var c = unhex(colors[2])
+    for(row=0; row<= step; row++){
+      var r_diff = (c[0]-a2b[row][0])/step
+      var g_diff = (c[1]-a2b[row][1])/step
+      var b_diff = (c[2]-a2b[row][2])/step
+      var row_swatches = []
+      for(i=0; i<= step; i++){ 
+        row_swatches.push( swatch(rehex(c[0]-(i*r_diff), c[1]-(i*g_diff), c[2]-(i*b_diff) )) )
+      } 
+      results.push(row_swatches.reverse().join(''))
+    }
+  }
+  else {
+    // just doing a 2d so just push the swatches to results
+    for(i=0; i<= step; i++){ results.push(swatch(rehex(a2b[i][0], a2b[i][1], a2b[i][2]))) }
+  }
+
   return results.join("\n")
 }
 
