@@ -53,6 +53,11 @@
       -webkit-animation-iteration-count: 1; 
     }
     .swatch { color: rgba(255,255,255,.5) !important }
+    .donkykong{
+      background-image: url(http://notbenh.info/media/barrel.gif);
+      height: 272px;
+      width: 384px;
+     }
   </style>
 <script>
 
@@ -93,7 +98,8 @@ function roll (dice){
   var re = /^(\d*)?d(\d+)/;
   dice.forEach(function(die){
       if (die == 'barrel'){
-        results.push('http://notbenh.info/repeater.php?img=media%2Fbarrel.gif')
+        //results.push('http://notbenh.info/repeater.php?img=media%2Fbarrel.gif')
+        results.push('[[;;;donkykong] ]')
       }
       else{
         var parse = re.exec(die);
