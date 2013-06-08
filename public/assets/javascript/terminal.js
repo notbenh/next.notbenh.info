@@ -12,14 +12,16 @@ ActionSet = (function() {
   ActionSet.prototype.actions = {};
 
   ActionSet.prototype["do"] = function() {
-    var args, verb, _ref;
+    var args, verb;
     args = arguments.length === 1 ? arguments[0].split(' ') : Array.prototype.slice.call(arguments);
     verb = args.shift();
-    console.info(("L " + arguments.length + " VERB " + verb + " args [") + args + "] action " + this.actions[verb]);
-    if (this.actions[verb] === void 0) {
-      throw new Error("ActionSet " + this.name + " does not know how to " + verb);
+    if (arguments.length === 1) {
+      args = args.join(' ');
     }
-    return (_ref = this.actions[verb]).action.apply(_ref, args);
+    if (this.actions[verb] === void 0) {
+      throw "ActionSet " + this.name + " does not know how to " + verb;
+    }
+    return this.actions[verb].action(args);
   };
 
   ActionSet.prototype.add = function() {
@@ -45,7 +47,6 @@ Action = (function() {
     this.action = action;
     this.note = note;
     this.docs = docs;
-    console.info('const', this.name, this.action, this.note, this.docs);
   }
 
   return Action;
@@ -61,15 +62,17 @@ Terminal = (function() {
   }
 
   Terminal.prototype._preform_action = function(command, term) {
-    var e;
+    var e, _ref;
+    console.info(command, term);
     if (command === '') {
       term.echo('');
     } else {
       try {
-        term.echo(this.actions["do"](command));
+        term.echo((_ref = this.actions["do"](command)) != null ? _ref : '');
       } catch (_error) {
         e = _error;
-        term.error(new String(e));
+        console.error(e);
+        term.error(e != null ? e : 'oops');
       }
     }
   };

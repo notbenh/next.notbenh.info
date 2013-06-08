@@ -4,33 +4,34 @@ class ActionSet
   do      : =>
     args = if arguments.length == 1 then arguments[0].split(' ') else Array.prototype.slice.call(arguments)
     verb = args.shift()
-    console.info "L #{arguments.length} VERB #{verb} args [" + args + "] action " + @actions[verb]
-    throw new Error("ActionSet #{@name} does not know how to #{verb}") if @actions[verb] == undefined
-    return @actions[verb].action(args...)
-  #_custom_actions: []
+    args = args.join(' ') if arguments.length == 1
+    throw "ActionSet #{@name} does not know how to #{verb}" if @actions[verb] == undefined
+    return @actions[verb].action(args)
   add     : (name,opts...) ->
     console.info('add',name,opts)
     @actions[name] = new Action(name, opts...)
+  #_custom_actions: []
   #rm      : () => # remove an action
   #_merge  : () => # take a list of other AS objects and try and take there actions
   #help    : (verb) =>
 
 class Action
   constructor: (@name,@action,@note,@docs...) ->
-    console.info('const',@name,@action,@note,@docs)
 
 class Terminal
   # for now assume that terminal has been loaded already
   constructor: (@id,@options) ->
     @element = $(@id).terminal(@_preform_action, @options)
   _preform_action: (command,term) =>
+    console.info(command,term)
     if command == ''
-      term.echo('') # no command, no output
+      term.echo '' # no command, no output
     else
       try
-        term.echo @actions.do(command)
+        term.echo @actions.do(command) ? ''
       catch e
-        term.error( new String(e))
+        console.error(e)
+        term.error e ? 'oops'
     return # seems that coffeescript always returns, so return nothing
   docs: {}
   actions : new ActionSet('instance')
