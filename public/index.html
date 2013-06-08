@@ -5,10 +5,6 @@
   <meta charset="utf-8" />
   <title>notbenh.info</title>
   <meta name="Description" content="notbenh does silly things on the internet."/>
-  <script src="assets/vendor/jquery.terminal/js/jquery-1.7.1.min.js"></script>
-  <script src="assets/vendor/jquery.terminal/js/jquery.mousewheel-min.js"></script>
-  <script src="assets/vendor/jquery.terminal/js/jquery.terminal-min.js"></script>
-  <script src="action.js"></script>
   <link href="assets/vendor/jquery.terminal/css/jquery.terminal.css" rel="stylesheet"/>
   <style>
     body{ background-color: #000 }
@@ -58,16 +54,20 @@
       width: 384px;
      }
   </style>
-<script>
-jQuery(function($, undefined) {
-  t= new Terminal('#terminal',{prompt:'>>> '})
-  t._add_action('hello',function(name){console.info(name)},{GOAL:'just say hello'})
-  t._add_action('reload',function(){window.location.reload()},{GOAL:'reload'})
-})
-
-</script>
 </head>
 <body>
   <div id='terminal'></div>
+  <script src="assets/vendor/jquery.terminal/js/jquery-1.7.1.min.js"></script>
+  <script src="assets/vendor/jquery.terminal/js/jquery.mousewheel-min.js"></script>
+  <script src="assets/vendor/jquery.terminal/js/jquery.terminal-min.js"></script>
+  <script src="assets/javascript/terminal.js"></script>
+  <script>
+  jQuery(function($, undefined) {
+    t= new Terminal('#terminal',{prompt:'>>> '})
+    t._add_action('hello',function(name){console.info(name)},{GOAL:'just say hello'})
+    t._add_action('reload',function(){window.location.reload()},{GOAL:'reload'})
+  })
+
+  </script>
 </body>
 </html>
