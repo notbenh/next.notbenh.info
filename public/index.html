@@ -69,12 +69,17 @@ jQuery(function($, undefined) {
 
         if (command !== '') {
             try {
-                var result = window.eval(verb + '(args)'); 
-                if (result !== undefined) {
-                    term.echo(new String(result));
+              var result = window.eval(verb + '(args)'); 
+              if (result !== undefined) {
+                result_url_match = /https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g.exec(result)
+                if(result_url_match !== null && result_url_match[0] === result){
+                  window.open(result) // should kick open a new tab though dependant on users settings 
+                  result += ' [opened in new tab]'
                 }
+                term.echo(new String(result));
+              }
             } catch(e) {
-                term.error(new String(e));
+              term.error(new String(e))
             }
         } else {
            term.echo('');
