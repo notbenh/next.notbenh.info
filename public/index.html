@@ -64,8 +64,13 @@
   <script>
   jQuery(function($, undefined) {
     t= new Terminal('#terminal',{prompt:'>>> '})
-    t._add_action('hello',function(name){console.info(name)},{GOAL:'just say hello'})
-    t._add_action('reload',function(){window.location.reload()},{GOAL:'reload'})
+    t._add_action('hello',function(name){return 'howdy ' + name + '! how are you today?'})
+    t._add_action('reload',function(){window.location.reload()})
+
+    a = new ActionSet('kitten')
+    a.add('pet',function(name){return 'you pet '+name},'pet a kitten')
+
+
   })
 
   </script>
