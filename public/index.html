@@ -4,8 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <title>notbenh.info</title>
-  <meta name="Description"
-        content="notbenh does silly things on the internet."/>
+  <meta name="Description" content="notbenh does silly things on the internet."/>
   <script src="assets/vendor/jquery.terminal/js/jquery-1.7.1.min.js"></script>
   <script src="assets/vendor/jquery.terminal/js/jquery.mousewheel-min.js"></script>
   <script src="assets/vendor/jquery.terminal/js/jquery.terminal-min.js"></script>
@@ -53,36 +52,18 @@
       -webkit-animation-duration: 4s; 
       -webkit-animation-iteration-count: 1; 
     }
+    .donkykong{
+      background-image: url(http://notbenh.info/media/barrel.gif);
+      height: 272px;
+      width: 384px;
+     }
   </style>
 <script>
-
-
-  /*
 jQuery(function($, undefined) {
-    $('#terminal').terminal(function(command, term) {
-        args = command.split(' ');
-        verb = args.shift();
-
-        if (command !== '') {
-            try {
-                //var result = window.eval(verb + '(args)'); 
-                var result = window.eval('actions.' + verb + '.action(args)'); 
-                if (result !== undefined) {
-                    term.echo(new String(result));
-                }
-            } catch(e) {
-                term.error(new String(e));
-            }
-        } else {
-           term.echo('');
-        }
-    }, {
-        greetings: 'notbenh.info: do things by typing (if you get lost ask for "help")',
-        name: 'notbenh_shell',
-        prompt: '> '});
-});
-  */
-
+  t= new Terminal('#terminal',{prompt:'>>> '})
+  t._add_action('hello',function(name){console.info(name)},{GOAL:'just say hello'})
+  t._add_action('reload',function(){window.location.reload()},{GOAL:'reload'})
+})
 
 </script>
 </head>
