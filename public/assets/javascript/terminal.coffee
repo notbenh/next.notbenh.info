@@ -8,7 +8,6 @@ class ActionSet
     throw "ActionSet #{@name} does not know how to #{verb}" if @actions[verb] == undefined
     return @actions[verb].action(args)
   add     : (name,opts...) ->
-    console.info('add',name,opts)
     @actions[name] = new Action(name, opts...)
   #_custom_actions: []
   #rm      : () => # remove an action
@@ -23,14 +22,12 @@ class Terminal
   constructor: (@id,@options) ->
     @element = $(@id).terminal(@_preform_action, @options)
   _preform_action: (command,term) =>
-    console.info(command,term)
     if command == ''
       term.echo '' # no command, no output
     else
       try
         term.echo @actions.do(command) ? ''
       catch e
-        console.error(e)
         term.error e ? 'oops'
     return # seems that coffeescript always returns, so return nothing
   docs: {}

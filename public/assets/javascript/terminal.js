@@ -27,7 +27,6 @@ ActionSet = (function() {
   ActionSet.prototype.add = function() {
     var name, opts;
     name = arguments[0], opts = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-    console.info('add', name, opts);
     return this.actions[name] = (function(func, args, ctor) {
       ctor.prototype = func.prototype;
       var child = new ctor, result = func.apply(child, args);
@@ -63,7 +62,6 @@ Terminal = (function() {
 
   Terminal.prototype._preform_action = function(command, term) {
     var e, _ref;
-    console.info(command, term);
     if (command === '') {
       term.echo('');
     } else {
@@ -71,7 +69,6 @@ Terminal = (function() {
         term.echo((_ref = this.actions["do"](command)) != null ? _ref : '');
       } catch (_error) {
         e = _error;
-        console.error(e);
         term.error(e != null ? e : 'oops');
       }
     }
