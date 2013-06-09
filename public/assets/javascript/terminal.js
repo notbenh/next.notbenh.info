@@ -45,7 +45,6 @@ ActionSet = (function() {
 
   ActionSet.prototype.help = function(verb) {
     var action, buffer, content, content_item, name, title, _i, _len, _ref, _ref1;
-    console.info("HELP ", verb);
     buffer = '';
     if (verb === void 0) {
       buffer += "here are a all the known actions: \n";
@@ -56,7 +55,6 @@ ActionSet = (function() {
           buffer += "  " + action.name + ": " + action.note + "\n";
         }
       }
-      console.info(this.actions, buffer);
       return buffer;
     }
     action = this.actions[verb];
@@ -68,7 +66,6 @@ ActionSet = (function() {
       _ref1 = action.docs;
       for (title in _ref1) {
         content = _ref1[title];
-        console.info(("TITLE: " + title + " CONTENT: ") + content);
         if (Array.isArray(content)) {
           buffer += "  " + title + ":\n";
           for (_i = 0, _len = content.length; _i < _len; _i++) {

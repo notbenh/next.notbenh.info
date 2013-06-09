@@ -13,14 +13,12 @@ class ActionSet
   rm      : () => # remove an action
   _merge  : () => # take a list of other AS objects and try and take there actions
   help    : (verb) =>
-    console.info("HELP ",verb)
     buffer = ''
     # list all known actions if no verb has been asked for
     if verb == undefined
       buffer += "here are a all the known actions: \n"
       for name, action of @actions
         buffer += "  #{action.name}: #{action.note}\n" if action.note.length > 0
-      console.info(@actions,buffer)
       return buffer
     # report the docs for verb
     action = @actions[verb]
@@ -28,7 +26,6 @@ class ActionSet
       buffer += "#{action.name}:\n"
       buffer += "  #{action.note}\n" if action.note.length >= 0
       for title,content of action.docs
-        console.info "TITLE: #{title} CONTENT: " + content
         if Array.isArray content
           buffer += "  #{title}:\n"
           for content_item in content
