@@ -6,6 +6,9 @@ var Action, ActionSet, Terminal,
 ActionSet = (function() {
   function ActionSet(name) {
     this.name = name;
+    this.help = __bind(this.help, this);
+    this._merge = __bind(this._merge, this);
+    this.rm = __bind(this.rm, this);
     this["do"] = __bind(this["do"], this);
   }
 
@@ -34,18 +37,62 @@ ActionSet = (function() {
     })(Action, [name].concat(__slice.call(opts)), function(){});
   };
 
+  ActionSet.prototype._custom_actions = [];
+
+  ActionSet.prototype.rm = function() {};
+
+  ActionSet.prototype._merge = function() {};
+
+  ActionSet.prototype.help = function(verb) {
+    var action, buffer, content, content_item, name, title, _i, _len, _ref, _ref1;
+    console.info("HELP ", verb);
+    buffer = '';
+    if (verb === void 0) {
+      buffer += "here are a all the known actions: \n";
+      _ref = this.actions;
+      for (name in _ref) {
+        action = _ref[name];
+        if (action.note.length > 0) {
+          buffer += "  " + action.name + ": " + action.note + "\n";
+        }
+      }
+      console.info(this.actions, buffer);
+      return buffer;
+    }
+    action = this.actions[verb];
+    if (action.note.length > 0 || action.docs) {
+      buffer += "" + action.name + ":\n";
+      if (action.note.length >= 0) {
+        buffer += "  " + action.note + "\n";
+      }
+      _ref1 = action.docs;
+      for (title in _ref1) {
+        content = _ref1[title];
+        console.info(("TITLE: " + title + " CONTENT: ") + content);
+        if (Array.isArray(content)) {
+          buffer += "  " + title + ":\n";
+          for (_i = 0, _len = content.length; _i < _len; _i++) {
+            content_item = content[_i];
+            buffer += "    " + content_item + "\n";
+          }
+        } else {
+          buffer += "  " + title + ": " + content + "\n";
+        }
+      }
+      return buffer;
+    }
+  };
+
   return ActionSet;
 
 })();
 
 Action = (function() {
-  function Action() {
-    var action, docs, name, note;
-    name = arguments[0], action = arguments[1], note = arguments[2], docs = 4 <= arguments.length ? __slice.call(arguments, 3) : [];
+  function Action(name, action, note, docs) {
     this.name = name;
     this.action = action;
-    this.note = note;
-    this.docs = docs;
+    this.note = note != null ? note : '';
+    this.docs = docs != null ? docs : {};
   }
 
   return Action;
@@ -61,9 +108,12 @@ Terminal = (function() {
   }
 
   Terminal.prototype._preform_action = function(command, term) {
-    var e, _ref;
+    var e, match, _ref;
     if (command === '') {
       term.echo('');
+    } else if (/^help/.test(command)) {
+      match = /^help\s*(\w+)?/.exec(command);
+      term.echo(this.actions.help(match[1]));
     } else {
       try {
         term.echo((_ref = this.actions["do"](command)) != null ? _ref : '');
@@ -74,75 +124,12 @@ Terminal = (function() {
     }
   };
 
-  Terminal.prototype.docs = {};
-
   Terminal.prototype.actions = new ActionSet('instance');
 
-  Terminal.prototype._add_action = function() {
-    var action, docs, name;
-    name = arguments[0], action = arguments[1], docs = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
-    return this.actions.add(name, action, docs);
+  Terminal.prototype._add_action = function(name, action, note, docs) {
+    return this.actions.add(name, action, note, docs);
   };
 
   return Terminal;
 
 })();
-
-/*
-
-    function help (verbs){
-  var buffer = ''
-  if(verbs.length === 0){
-    buffer += "for more help on any topic ask for help followed by topic. for example if you wanted to know more about 'roll' then say 'help roll'\n";
-    buffer += "here are some of the helpful things you can do: \n"
-    Object.keys(docs).sort().forEach(function(verb){
-      buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
-    })
-    // TODO: it would be nice if this was formated such that all the : are aligned
-  }
-  else {
-    verbs.forEach(function(verb){
-      //console.info('VERB IS ' + verb)
-      if( docs[verb] !== undefined ) {
-        //console.info('FOUND ONE: ', docs[verb]);
-        buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
-        // SYNTAX
-        if( docs[verb]['SYNTAX'] !== undefined) {
-          buffer += "  SYNTAX: " + docs[verb]['SYNTAX'] + "\n"
-        }
-        // EXAMPLES
-        if( docs[verb]['EXAMPLES'] !== undefined){
-          buffer += "  EXAMPLES:\n"
-          docs[verb]['EXAMPLES'].forEach(function(example){
-            buffer += '    ' + example + "\n"
-          })
-        }
-        // NOTE
-        if( docs[verb]['NOTE'] !== undefined) {
-          buffer += "  NOTE: " + docs[verb]['NOTE'] + "\n"
-        }
-        // TODO
-        if( docs[verb]['TODO'] !== undefined) {
-          buffer += "  TODO: " + docs[verb]['TODO'] + "\n"
-        }
-      }
-      else{
-        buffer += "  ERROR: I do not know how to " + verb
-      }
-    })
-  }
-  return buffer;
-}
-*/
-
-
-/*
-        console.info(verb,args,@actions[verb],result)
-        if result != undefined
-          result_url_match = /https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g.exec(result)
-          if result_url_match != null && result_url_match[0] == result
-            # action returned just a URL, kick open a new tab
-            window.open(result)
-            result += ' [opened in new tab]'
-*/
-

@@ -9,13 +9,36 @@ class ActionSet
     return @actions[verb].action(args)
   add     : (name,opts...) ->
     @actions[name] = new Action(name, opts...)
-  #_custom_actions: []
-  #rm      : () => # remove an action
-  #_merge  : () => # take a list of other AS objects and try and take there actions
-  #help    : (verb) =>
+  _custom_actions: []
+  rm      : () => # remove an action
+  _merge  : () => # take a list of other AS objects and try and take there actions
+  help    : (verb) =>
+    console.info("HELP ",verb)
+    buffer = ''
+    # list all known actions if no verb has been asked for
+    if verb == undefined
+      buffer += "here are a all the known actions: \n"
+      for name, action of @actions
+        buffer += "  #{action.name}: #{action.note}\n" if action.note.length > 0
+      console.info(@actions,buffer)
+      return buffer
+    # report the docs for verb
+    action = @actions[verb]
+    if action.note.length > 0 || action.docs
+      buffer += "#{action.name}:\n"
+      buffer += "  #{action.note}\n" if action.note.length >= 0
+      for title,content of action.docs
+        console.info "TITLE: #{title} CONTENT: " + content
+        if Array.isArray content
+          buffer += "  #{title}:\n"
+          for content_item in content
+            buffer += "    #{content_item}\n"
+        else
+          buffer += "  #{title}: #{content}\n"
+      return buffer
 
 class Action
-  constructor: (@name,@action,@note,@docs...) ->
+  constructor: (@name,@action,@note='',@docs={}) ->
 
 class Terminal
   # for now assume that terminal has been loaded already
@@ -24,72 +47,17 @@ class Terminal
   _preform_action: (command,term) =>
     if command == ''
       term.echo '' # no command, no output
+    else if /^help/.test(command)
+      match = /^help\s*(\w+)?/.exec(command)
+      term.echo @actions.help(match[1])
     else
       try
         term.echo @actions.do(command) ? ''
       catch e
         term.error e ? 'oops'
     return # seems that coffeescript always returns, so return nothing
-  docs: {}
   actions : new ActionSet('instance')
-  _add_action: (name,action,docs...) ->
-    @actions.add(name,action,docs)
+  _add_action: (name,action,note,docs) ->
+    @actions.add(name,action,note,docs)
 
 
-###
-
-    function help (verbs){
-  var buffer = ''
-  if(verbs.length === 0){
-    buffer += "for more help on any topic ask for help followed by topic. for example if you wanted to know more about 'roll' then say 'help roll'\n";
-    buffer += "here are some of the helpful things you can do: \n"
-    Object.keys(docs).sort().forEach(function(verb){
-      buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
-    })
-    // TODO: it would be nice if this was formated such that all the : are aligned
-  }
-  else {
-    verbs.forEach(function(verb){
-      //console.info('VERB IS ' + verb)
-      if( docs[verb] !== undefined ) {
-        //console.info('FOUND ONE: ', docs[verb]);
-        buffer += "  " + verb + " : " + docs[verb]['GOAL'] + "\n"
-        // SYNTAX
-        if( docs[verb]['SYNTAX'] !== undefined) {
-          buffer += "  SYNTAX: " + docs[verb]['SYNTAX'] + "\n"
-        }
-        // EXAMPLES
-        if( docs[verb]['EXAMPLES'] !== undefined){
-          buffer += "  EXAMPLES:\n"
-          docs[verb]['EXAMPLES'].forEach(function(example){
-            buffer += '    ' + example + "\n"
-          })
-        }
-        // NOTE
-        if( docs[verb]['NOTE'] !== undefined) {
-          buffer += "  NOTE: " + docs[verb]['NOTE'] + "\n"
-        }
-        // TODO
-        if( docs[verb]['TODO'] !== undefined) {
-          buffer += "  TODO: " + docs[verb]['TODO'] + "\n"
-        }
-      }
-      else{
-        buffer += "  ERROR: I do not know how to " + verb
-      }
-    })
-  }
-  return buffer;
-}
-###
-
-
-###
-        console.info(verb,args,@actions[verb],result)
-        if result != undefined
-          result_url_match = /https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g.exec(result)
-          if result_url_match != null && result_url_match[0] == result
-            # action returned just a URL, kick open a new tab
-            window.open(result)
-            result += ' [opened in new tab]'
-            ###
