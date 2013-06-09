@@ -51,13 +51,21 @@ ActionSet = (function() {
   ActionSet.prototype._merge = function() {};
 
   ActionSet.prototype.help = function(verb) {
-    var action, buffer, content, content_item, name, title, _i, _len, _ref, _ref1;
+    var action, buffer, content, content_item, name, names, title, _i, _j, _len, _len1, _ref;
     buffer = '';
     if (verb === void 0) {
       buffer += "here are a all the known actions: \n";
-      _ref = this.actions;
-      for (name in _ref) {
-        action = _ref[name];
+      names = ((function() {
+        var _results;
+        _results = [];
+        for (name in this.actions) {
+          _results.push(name);
+        }
+        return _results;
+      }).call(this)).sort();
+      for (_i = 0, _len = names.length; _i < _len; _i++) {
+        name = names[_i];
+        action = this.actions[name];
         if (action.note.length > 0) {
           buffer += "  " + action.name + ": " + action.note + "\n";
         }
@@ -70,13 +78,13 @@ ActionSet = (function() {
       if (action.note.length >= 0) {
         buffer += "  " + action.note + "\n";
       }
-      _ref1 = action.docs;
-      for (title in _ref1) {
-        content = _ref1[title];
+      _ref = action.docs;
+      for (title in _ref) {
+        content = _ref[title];
         if (Array.isArray(content)) {
           buffer += "  " + title + ":\n";
-          for (_i = 0, _len = content.length; _i < _len; _i++) {
-            content_item = content[_i];
+          for (_j = 0, _len1 = content.length; _j < _len1; _j++) {
+            content_item = content[_j];
             buffer += "    " + content_item + "\n";
           }
         } else {

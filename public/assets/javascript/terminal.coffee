@@ -20,7 +20,9 @@ class ActionSet
     # list all known actions if no verb has been asked for
     if verb == undefined
       buffer += "here are a all the known actions: \n"
-      for name, action of @actions
+      names = (name for name of @actions).sort()
+      for name in names
+        action = @actions[name]
         buffer += "  #{action.name}: #{action.note}\n" if action.note.length > 0
       return buffer
     # report the docs for verb

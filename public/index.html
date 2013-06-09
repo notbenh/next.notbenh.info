@@ -48,6 +48,7 @@
       -webkit-animation-duration: 4s; 
       -webkit-animation-iteration-count: 1; 
     }
+    .swatch { color: rgba(255,255,255,.5) !important }
     .donkykong{
       background-image: url(http://notbenh.info/media/barrel.gif);
       height: 272px;
@@ -64,11 +65,15 @@
   <script src="assets/javascript/ben_actions.js"></script>
   <script>
   jQuery(function($, undefined) {
-    t= new Terminal('#terminal',{prompt:'>>> '},ben_actions)
-    t._add_action('reload',function(){window.location.reload()},'reload the current session',{EXAMPLE: 'reload'})
+    t= new Terminal('#terminal',
+                    { greetings: 'notbenh.info: do things by typing (if you get lost ask for "help")',
+                      name: 'notbenh_shell',
+                      prompt: '> '
+                    },
+                    ben_actions
+                   )
+    // just a test to make sure that I can add actions on the fly
     t._add_action('hello',function(name){return 'howdy ' + name + '! how are you today?'},'just saying hello',{EXAMPLE:['hello bob','hello silly bill']})
-
-
   })
 
   </script>
