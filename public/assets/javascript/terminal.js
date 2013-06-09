@@ -14,8 +14,7 @@ ActionSet = (function() {
     if (actions !== void 0) {
       for (name in actions) {
         data = actions[name];
-        console.info(("ACT: " + name + " ") + data);
-        this.add(name, data);
+        this.add.apply(this, [name].concat(__slice.call(data)));
       }
     }
   }
@@ -110,7 +109,6 @@ Terminal = (function() {
     this.options = options;
     this._preform_action = __bind(this._preform_action, this);
     this.element = $(this.id).terminal(this._preform_action, this.options);
-    console.info('TERM: ', actions);
     this.actions = actions !== void 0 ? new ActionSet('instance', actions) : new ActionSet('instance');
   }
 

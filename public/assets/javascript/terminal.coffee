@@ -2,8 +2,7 @@ class ActionSet
   constructor: (@name,actions) ->
     if actions != undefined
       for name,data of actions
-        console.info "ACT: #{name} "+ data
-        @add(name,data)
+        @add(name,data...)
   actions : {}
   do      : =>
     args = if arguments.length == 1 then arguments[0].split(' ') else Array.prototype.slice.call(arguments)
@@ -45,7 +44,6 @@ class Terminal
   # for now assume that terminal has been loaded already
   constructor: (@id,@options,actions) ->
     @element = $(@id).terminal(@_preform_action, @options)
-    console.info('TERM: ', actions)
     @actions = if actions != undefined then new ActionSet('instance',actions) else new ActionSet('instance')
   _preform_action: (command,term) =>
     if command == ''

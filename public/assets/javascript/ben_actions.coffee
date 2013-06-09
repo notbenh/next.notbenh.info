@@ -1,12 +1,13 @@
 ben_actions =
   roll : [
-    (die...) ->
-      console.info(roll,die)
+    (die) ->
+      console.info('roll: ',die)
+      return 'roll'
     'roll some die'
     {EXAMPLES: ['roll d20','roll 10d30 d6' ]}
   ]
   flip: [
-    -> console.info('flip')
+    ->  'filp'
     'flip a coin'
     {EXAMPLES: 'flip'}
   ]
