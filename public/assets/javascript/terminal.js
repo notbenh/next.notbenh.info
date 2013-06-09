@@ -4,12 +4,20 @@ var Action, ActionSet, Terminal,
   __slice = [].slice;
 
 ActionSet = (function() {
-  function ActionSet(name) {
+  function ActionSet(name, actions) {
+    var data;
     this.name = name;
     this.help = __bind(this.help, this);
     this._merge = __bind(this._merge, this);
     this.rm = __bind(this.rm, this);
     this["do"] = __bind(this["do"], this);
+    if (actions !== void 0) {
+      for (name in actions) {
+        data = actions[name];
+        console.info(("ACT: " + name + " ") + data);
+        this.add(name, data);
+      }
+    }
   }
 
   ActionSet.prototype.actions = {};
@@ -97,11 +105,13 @@ Action = (function() {
 })();
 
 Terminal = (function() {
-  function Terminal(id, options) {
+  function Terminal(id, options, actions) {
     this.id = id;
     this.options = options;
     this._preform_action = __bind(this._preform_action, this);
     this.element = $(this.id).terminal(this._preform_action, this.options);
+    console.info('TERM: ', actions);
+    this.actions = actions !== void 0 ? new ActionSet('instance', actions) : new ActionSet('instance');
   }
 
   Terminal.prototype._preform_action = function(command, term) {
@@ -121,10 +131,18 @@ Terminal = (function() {
     }
   };
 
-  Terminal.prototype.actions = new ActionSet('instance');
-
   Terminal.prototype._add_action = function(name, action, note, docs) {
-    return this.actions.add(name, action, note, docs);
+    var data, _ref, _results;
+    if (typeof name === 'object') {
+      _results = [];
+      for (name in name) {
+        data = name[name];
+        _results.push((_ref = this.actions).add.apply(_ref, [name].concat(__slice.call(data))));
+      }
+      return _results;
+    } else {
+      return this.actions.add(name, action, note, docs);
+    }
   };
 
   return Terminal;

@@ -61,9 +61,10 @@
   <script src="assets/vendor/jquery.terminal/js/jquery.mousewheel-min.js"></script>
   <script src="assets/vendor/jquery.terminal/js/jquery.terminal-min.js"></script>
   <script src="assets/javascript/terminal.js"></script>
+  <script src="assets/javascript/ben_actions.js"></script>
   <script>
   jQuery(function($, undefined) {
-    t= new Terminal('#terminal',{prompt:'>>> '})
+    t= new Terminal('#terminal',{prompt:'>>> '},ben_actions)
     t._add_action('reload',function(){window.location.reload()},'reload the current session',{EXAMPLE: 'reload'})
     t._add_action('hello',function(name){return 'howdy ' + name + '! how are you today?'},'just saying hello',{EXAMPLE:['hello bob','hello silly bill']})
 

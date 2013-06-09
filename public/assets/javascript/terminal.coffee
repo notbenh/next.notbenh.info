@@ -1,5 +1,9 @@
 class ActionSet
-  constructor: (@name) ->
+  constructor: (@name,actions) ->
+    if actions != undefined
+      for name,data of actions
+        console.info "ACT: #{name} "+ data
+        @add(name,data)
   actions : {}
   do      : =>
     args = if arguments.length == 1 then arguments[0].split(' ') else Array.prototype.slice.call(arguments)
@@ -39,8 +43,10 @@ class Action
 
 class Terminal
   # for now assume that terminal has been loaded already
-  constructor: (@id,@options) ->
+  constructor: (@id,@options,actions) ->
     @element = $(@id).terminal(@_preform_action, @options)
+    console.info('TERM: ', actions)
+    @actions = if actions != undefined then new ActionSet('instance',actions) else new ActionSet('instance')
   _preform_action: (command,term) =>
     if command == ''
       term.echo '' # no command, no output
@@ -53,8 +59,11 @@ class Terminal
       catch e
         term.error e ? 'oops'
     return # seems that coffeescript always returns, so return nothing
-  actions : new ActionSet('instance')
   _add_action: (name,action,note,docs) ->
-    @actions.add(name,action,note,docs)
+    if typeof name == 'object'
+      for name,data of name
+        @actions.add(name,data...)
+    else
+      @actions.add(name,action,note,docs)
 
 

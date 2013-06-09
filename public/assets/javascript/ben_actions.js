@@ -8,12 +8,16 @@ ben_actions = {
       var die;
       die = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
       return console.info(roll, die);
-    }, 'roll some die'
+    }, 'roll some die', {
+      EXAMPLES: ['roll d20', 'roll 10d30 d6']
+    }
   ],
   flip: [
     function() {
       return console.info('flip');
-    }, 'flip a coin'
+    }, 'flip a coin', {
+      EXAMPLES: 'flip'
+    }
   ]
 };
 
