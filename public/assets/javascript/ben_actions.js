@@ -132,7 +132,6 @@ ben_actions = {
       one = parsed_colors[0];
       two = parsed_colors[1];
       three = parsed_colors[2];
-      console.info([one, two, three]);
       if (two === void 0) {
         throw "color requires at least two colors";
       }
@@ -180,7 +179,6 @@ ben_actions = {
           results.push(swatch(rehex(a2b[i][0], a2b[i][1], a2b[i][2])));
         }
       }
-      console.info(results);
       return results.join("\n");
     }, 'build a graident between two or three html/hex colors', {
       EXAMPLES: ['color FFF 000', 'color 012345 FEDCBA', 'color 012345 FEDCBA CCC']

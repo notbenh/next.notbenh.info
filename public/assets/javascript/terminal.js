@@ -22,7 +22,7 @@ ActionSet = (function() {
   ActionSet.prototype.actions = {};
 
   ActionSet.prototype["do"] = function() {
-    var args, verb;
+    var args, c_action, result, verb, _i, _len, _ref;
     args = arguments.length === 1 ? arguments[0].split(' ') : Array.prototype.slice.call(arguments);
     verb = args.shift();
     if (arguments.length === 1) {
@@ -31,7 +31,13 @@ ActionSet = (function() {
     if (this.actions[verb] === void 0) {
       throw "ActionSet " + this.name + " does not know how to " + verb;
     }
-    return this.actions[verb].action(args);
+    result = this.actions[verb].action(args);
+    _ref = this._custom_actions;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      c_action = _ref[_i];
+      result = c_action(result);
+    }
+    return result;
   };
 
   ActionSet.prototype.add = function() {

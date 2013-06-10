@@ -9,7 +9,10 @@ class ActionSet
     verb = args.shift()
     args = args.join(' ') if arguments.length == 1
     throw "ActionSet #{@name} does not know how to #{verb}" if @actions[verb] == undefined
-    return @actions[verb].action(args)
+    result = @actions[verb].action(args)
+    for c_action in @_custom_actions
+      result = c_action(result)
+    return result
   add     : (name,opts...) ->
     @actions[name] = new Action(name, opts...)
   _custom_actions: []

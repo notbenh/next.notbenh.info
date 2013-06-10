@@ -72,6 +72,8 @@
                     },
                     ben_actions
                    )
+    // add in the custom url open action
+    t.actions._custom_actions.push(auto_url_open)
     // just a test to make sure that I can add actions on the fly
     t._add_action('hello',function(name){return 'howdy ' + name + '! how are you today?'},'just saying hello',{EXAMPLE:['hello bob','hello silly bill']})
   })
