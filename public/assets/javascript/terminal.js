@@ -60,6 +60,7 @@ ActionSet = (function() {
     var action, buffer, content, content_item, name, names, title, _i, _j, _len, _len1, _ref;
     buffer = '';
     if (verb === void 0) {
+      buffer += "for more help with any of these actions, just ask for help action for even more information. \n";
       buffer += "here are a all the known actions: \n";
       names = ((function() {
         var _results;
@@ -73,7 +74,7 @@ ActionSet = (function() {
         name = names[_i];
         action = this.actions[name];
         if (action.note.length > 0) {
-          buffer += "  " + action.name + ": " + action.note + "\n";
+          buffer += "  [[b;;;]" + action.name + "]: " + action.note + "\n";
         }
       }
       return buffer;

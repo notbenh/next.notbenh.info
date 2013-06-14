@@ -19,7 +19,7 @@ LINK = function(url, note) {
   return [
     function() {
       return url;
-    }, note
+    }, note + ' [[b;;;][opens in a new tab or window]]'
   ];
 };
 

@@ -11,7 +11,7 @@ getRandomInt = (min, max) -> return Math.floor(Math.random() * (max - min + 1)) 
 LINK = (url,note) -> 
   return [
     -> return url
-    note
+    note + ' [[b;;;][opens in a new tab or window]]'
   ]
 NYI  = (note) ->
   return [

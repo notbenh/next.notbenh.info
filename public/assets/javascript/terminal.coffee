@@ -22,11 +22,12 @@ class ActionSet
     buffer = ''
     # list all known actions if no verb has been asked for
     if verb == undefined
+      buffer += "for more help with any of these actions, just ask for help action for even more information. \n"
       buffer += "here are a all the known actions: \n"
       names = (name for name of @actions).sort()
       for name in names
         action = @actions[name]
-        buffer += "  #{action.name}: #{action.note}\n" if action.note.length > 0
+        buffer += "  [[b;;;]#{action.name}]: #{action.note}\n" if action.note.length > 0
       return buffer
     # report the docs for verb
     action = @actions[verb]
