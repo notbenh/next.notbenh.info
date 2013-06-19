@@ -89,7 +89,7 @@ ben_actions =
   color: [
     (colors) ->
       parsed_colors = []
-      for color in colors.split(/\s+/)
+      for color in colors.split(/\s+#?/)
         if html_color_names[color]? 
           parsed_colors.push html_color_names[color]
         else 

@@ -129,7 +129,7 @@ ben_actions = {
     function(colors) {
       var a, a2b, b, b_diff, c, color, g_diff, i, one, parsed_colors, r_diff, rehex, results, row, row_swatches, step, swatch, three, two, unhex, _i, _j, _k, _l, _len, _m, _ref;
       parsed_colors = [];
-      _ref = colors.split(/\s+/);
+      _ref = colors.split(/\s+#?/);
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         color = _ref[_i];
         if (html_color_names[color] != null) {
