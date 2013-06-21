@@ -52,8 +52,18 @@ class Terminal
     @element = $(@id).terminal(@_preform_action, @options)
     @actions = if actions != undefined then new ActionSet('instance',actions) else new ActionSet('instance')
   _preform_action: (command,term) =>
+    if /^\!/.test(command)
+      find = /\!+(.*)/.exec(command)[1]
+      term.history().data().pop() # do not store this request
+      h = term.history().data()
+      re = RegExp find
+      command = term.history().data().reverse().filter( (i)-> re.exec(i) )[0] || command
+      term.echo command
+
     if command == ''
       term.echo '' # no command, no output
+    else if command == 'history'
+      term.echo term.history().data().join("\n")
     else if /^help/.test(command)
       match = /^help\s*(\w+)?/.exec(command)
       term.echo @actions.help(match[1])

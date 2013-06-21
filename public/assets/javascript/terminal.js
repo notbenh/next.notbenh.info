@@ -128,9 +128,21 @@ Terminal = (function() {
   }
 
   Terminal.prototype._preform_action = function(command, term) {
-    var e, match, _ref;
+    var e, find, h, match, re, _ref;
+    if (/^\!/.test(command)) {
+      find = /\!+(.*)/.exec(command)[1];
+      term.history().data().pop();
+      h = term.history().data();
+      re = RegExp(find);
+      command = term.history().data().reverse().filter(function(i) {
+        return re.exec(i);
+      })[0] || command;
+      term.echo(command);
+    }
     if (command === '') {
       term.echo('');
+    } else if (command === 'history') {
+      term.echo(term.history().data().join("\n"));
     } else if (/^help/.test(command)) {
       match = /^help\s*(\w+)?/.exec(command);
       term.echo(this.actions.help(match[1]));
