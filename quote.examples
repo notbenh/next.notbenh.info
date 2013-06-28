@@ -1,0 +1,19 @@
+this "is a test" => 'this','is a test'
+it's a test => 'it\'s', 'a', 'test'
+"it 'is' a,,, test", => 'it \'is\' a test'
+ 's 's ' => 's \'s '
+How does 'it handle they're', there, and others (such as bat'leth)? 
+ => 'How', 'does', 'it handle they\'re\'
+  , 'there, and others (such as bat\'leth)?'
+
+How does 'it handle they're' there, and others (such as bat'leth)? 
+ => 'How','does', 'it handle they\'re', 'there'
+  , 'and', 'others', '(such', 'as', 'bat\'leth)?'
+
+command <arg1> <arg2> <arg3> <arg4>
+color #FFF #000
+hello bob
+roll 2d2 7d14
+command foo 'bar baz' qux 'quux quuux'
+command foo 'bar bat'leth qux
+=> "command", "foo", "bar batleth", "qux":

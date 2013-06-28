@@ -6,6 +6,11 @@ class ActionSet
   actions : {}
   do      : =>
     args = if arguments.length == 1 then arguments[0].split(' ') else Array.prototype.slice.call(arguments)
+    # !!! silly attempt at trying to do quoted sets
+    #args = if arguments.length == 1 then arguments[0].match(/(['"])(.*?)(?:\1(?!s))|\w+/g) else Array.prototype.slice.call(arguments)
+    #for a in args
+    #  a.replace /(['"])(.*)\1/, "$2"
+    console.info args
     verb = args.shift()
     args = args.join(' ') if arguments.length == 1
     throw "ActionSet #{@name} does not know how to #{verb}" if @actions[verb] == undefined
@@ -52,6 +57,7 @@ class Terminal
     @element = $(@id).terminal(@_preform_action, @options)
     @actions = if actions != undefined then new ActionSet('instance',actions) else new ActionSet('instance')
   _preform_action: (command,term) =>
+    # !search_history => re-preform action 
     if /^\!/.test(command)
       find = /\!+(.*)/.exec(command)[1]
       term.history().data().pop() # do not store this request
