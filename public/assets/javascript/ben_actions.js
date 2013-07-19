@@ -121,8 +121,10 @@ ben_actions = {
     }, 'reload the term'
   ],
   repeat: [
-    function(url) {
-      return ' just go to http://notbenh.info/repeater.php as this is not yet done';
+    function(image) {
+      var enc_img;
+      enc_img = encodeURIComponent(image);
+      return "http://notbenh.info/repeater.php?img=" + enc_img;
     }, 'take a URL and build single page with said URL repeated as a background'
   ],
   color: [
