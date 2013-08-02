@@ -29,7 +29,7 @@ ActionSet = (function() {
       args = args.join(' ');
     }
     if (this.actions[verb] === void 0) {
-      throw "ActionSet " + this.name + " does not know how to " + verb;
+      throw '';
     }
     result = this.actions[verb].action(args);
     _ref = this._custom_actions;
@@ -59,6 +59,10 @@ ActionSet = (function() {
   ActionSet.prototype.help = function(verb) {
     var action, buffer, content, content_item, name, names, title, _i, _j, _len, _len1, _ref;
     buffer = '';
+    if (!this.actions[verb]) {
+      buffer += "[[b;#F00;;]ERROR:] [[b;;;]" + verb + "] is not a known verb.\n\n";
+      verb = void 0;
+    }
     if (verb === void 0) {
       buffer += "for more help with any of these actions, just ask for help action for even more information. \n";
       buffer += "here are a all the known actions: \n";
@@ -152,7 +156,9 @@ Terminal = (function() {
       } catch (_error) {
         e = _error;
         term.error(e != null ? e : 'oops');
-        term.echo(this.actions.help());
+        if (e.length === 0) {
+          term.echo(this.actions.help(command));
+        }
       }
     }
   };

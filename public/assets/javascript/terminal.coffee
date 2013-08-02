@@ -14,7 +14,9 @@ class ActionSet
     verb = args.shift()
     args = args.join(' ') if arguments.length == 1
     if @actions[verb] == undefined
-      throw "ActionSet #{@name} does not know how to #{verb}" 
+      #throw "ActionSet #{@name} does not know how to #{verb}" 
+      # console.error verb, this.help verb
+      throw ''
     result = @actions[verb].action(args)
     for c_action in @_custom_actions
       result = c_action(result)
@@ -27,6 +29,9 @@ class ActionSet
   help    : (verb) =>
     buffer = ''
     # list all known actions if no verb has been asked for
+    unless @actions[verb]
+      buffer += "[[b;#F00;;]ERROR:] [[b;;;]#{verb}] is not a known verb.\n\n";
+      verb = undefined # just have everything shown
     if verb == undefined
       buffer += "for more help with any of these actions, just ask for help action for even more information. \n"
       buffer += "here are a all the known actions: \n"
@@ -79,7 +84,7 @@ class Terminal
         term.echo @actions.do(command) ? ''
       catch e
         term.error e ? 'oops'
-        term.echo @actions.help()
+        term.echo @actions.help(command) if e.length == 0
     return # seems that coffeescript always returns, so return nothing
   _add_action: (name,action,note,docs) ->
     if typeof name == 'object'
