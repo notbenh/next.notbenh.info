@@ -125,7 +125,7 @@ ben_actions = {
       var enc_img;
       enc_img = encodeURIComponent(image);
       return "http://notbenh.info/repeater.php?img=" + enc_img;
-    }, 'take a URL and build single page with said URL repeated as a background'
+    }, 'take a URL and build single page with said URL repeated as a background [in a new tab]'
   ],
   color: [
     function(colors) {
