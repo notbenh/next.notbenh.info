@@ -27,13 +27,21 @@ ben_actions =
   twitter: LINK 'http://twitter.com/notbenh', 'my twitter account'
   github : LINK 'https://github.com/notbenh', 'my github account'
   blog   : LINK 'http://notbenh.github.io'  , 'the thing I call a blog'
+  random : [
+    (input) ->
+      input = input.split(' ')
+      min = input[0] || 1
+      max = input[1] || 100
+      return getRandomInt parseInt(min), parseInt(max)
+    'pick a random int, can supply min and max though by default you are requesting 1-100'
+    EXAMPLES: ['random', 'random 10 30']
+  ]
   roll : [
     (dice) ->
       throw 'roll requires input, see help roll for examples' if dice.length == 0 || dice == undefined
       results    = []
       parse_die  = /^(\d*)?d(\d+)/
       roll_total = 0
-      console.info(dice)
       for die in dice.split(' ')
         console.info "DIE #{die}"
         if die == 'barrel'

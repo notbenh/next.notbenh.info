@@ -39,6 +39,18 @@ ben_actions = {
   twitter: LINK('http://twitter.com/notbenh', 'my twitter account'),
   github: LINK('https://github.com/notbenh', 'my github account'),
   blog: LINK('http://notbenh.github.io', 'the thing I call a blog'),
+  random: [
+    function(input) {
+      var max, min;
+      input = input.split(' ');
+      min = input[0] || 1;
+      max = input[1] || 100;
+      console.info([parseInt(min), parseInt(max), input]);
+      return getRandomInt(parseInt(min), parseInt(max));
+    }, 'pick a random int, can supply min and max though by default you are requesting 1-100', {
+      EXAMPLES: ['random', 'random 10 30']
+    }
+  ],
   roll: [
     function(dice) {
       var count, die, die_max, i, max, min, parse, parse_die, results, roll, roll_total, total, _i, _j, _len, _ref, _ref1, _ref2;
@@ -48,7 +60,6 @@ ben_actions = {
       results = [];
       parse_die = /^(\d*)?d(\d+)/;
       roll_total = 0;
-      console.info(dice);
       _ref = dice.split(' ');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         die = _ref[_i];
