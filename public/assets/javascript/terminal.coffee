@@ -10,10 +10,11 @@ class ActionSet
     #args = if arguments.length == 1 then arguments[0].match(/(['"])(.*?)(?:\1(?!s))|\w+/g) else Array.prototype.slice.call(arguments)
     #for a in args
     #  a.replace /(['"])(.*)\1/, "$2"
-    console.info args
+    # console.info args
     verb = args.shift()
     args = args.join(' ') if arguments.length == 1
-    throw "ActionSet #{@name} does not know how to #{verb}" if @actions[verb] == undefined
+    if @actions[verb] == undefined
+      throw "ActionSet #{@name} does not know how to #{verb}" 
     result = @actions[verb].action(args)
     for c_action in @_custom_actions
       result = c_action(result)
@@ -78,6 +79,7 @@ class Terminal
         term.echo @actions.do(command) ? ''
       catch e
         term.error e ? 'oops'
+        term.echo @actions.help()
     return # seems that coffeescript always returns, so return nothing
   _add_action: (name,action,note,docs) ->
     if typeof name == 'object'

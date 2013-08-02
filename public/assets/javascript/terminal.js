@@ -24,7 +24,6 @@ ActionSet = (function() {
   ActionSet.prototype["do"] = function() {
     var args, c_action, result, verb, _i, _len, _ref;
     args = arguments.length === 1 ? arguments[0].split(' ') : Array.prototype.slice.call(arguments);
-    console.info(args);
     verb = args.shift();
     if (arguments.length === 1) {
       args = args.join(' ');
@@ -153,6 +152,7 @@ Terminal = (function() {
       } catch (_error) {
         e = _error;
         term.error(e != null ? e : 'oops');
+        term.echo(this.actions.help());
       }
     }
   };
