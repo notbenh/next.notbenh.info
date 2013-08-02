@@ -59,7 +59,7 @@ ActionSet = (function() {
   ActionSet.prototype.help = function(verb) {
     var action, buffer, content, content_item, name, names, title, _i, _j, _len, _len1, _ref;
     buffer = '';
-    if (!this.actions[verb]) {
+    if (verb && this.actions[verb] === void 0) {
       buffer += "[[b;#F00;;]ERROR:] [[b;;;]" + verb + "] is not a known verb.\n\n";
       verb = void 0;
     }

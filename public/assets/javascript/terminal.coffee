@@ -29,7 +29,7 @@ class ActionSet
   help    : (verb) =>
     buffer = ''
     # list all known actions if no verb has been asked for
-    unless @actions[verb]
+    if verb && @actions[verb] == undefined
       buffer += "[[b;#F00;;]ERROR:] [[b;;;]#{verb}] is not a known verb.\n\n";
       verb = undefined # just have everything shown
     if verb == undefined
