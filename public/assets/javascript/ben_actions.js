@@ -43,7 +43,7 @@ ben_actions = {
     function(dice) {
       var count, die, die_max, i, max, min, parse, parse_die, results, roll, roll_total, total, _i, _j, _len, _ref, _ref1, _ref2;
       if (dice.length === 0 || dice === void 0) {
-        return this.help('roll');
+        throw 'roll requires input, see help roll for examples';
       }
       results = [];
       parse_die = /^(\d*)?d(\d+)/;
@@ -85,8 +85,7 @@ ben_actions = {
       return results.join("\n");
     }, 'roll some dice', {
       EXAMPLES: ['roll d20', 'roll 3d10', 'roll 5d2 d4 d13'],
-      SYNTAX: 'a die is defined by "d" followed by a digit. you can roll the same die multipe times by preceeding the die with the number of times to roll',
-      TODO: 'currently roll with out any arguments blows up, should give you the help text or at least tell you why you got nothing'
+      SYNTAX: 'a die is defined by "d" followed by a digit. you can roll the same die multipe times by preceeding the die with the number of times to roll'
     }
   ],
   barrel: [

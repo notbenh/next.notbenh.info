@@ -29,7 +29,7 @@ ben_actions =
   blog   : LINK 'http://notbenh.github.io'  , 'the thing I call a blog'
   roll : [
     (dice) ->
-      return this.help('roll') if dice.length == 0 || dice == undefined
+      throw 'roll requires input, see help roll for examples' if dice.length == 0 || dice == undefined
       results    = []
       parse_die  = /^(\d*)?d(\d+)/
       roll_total = 0
@@ -61,7 +61,6 @@ ben_actions =
     'roll some dice'
     EXAMPLES: ['roll d20', 'roll 3d10', 'roll 5d2 d4 d13']
     SYNTAX: 'a die is defined by "d" followed by a digit. you can roll the same die multipe times by preceeding the die with the number of times to roll'
-    TODO: 'currently roll with out any arguments blows up, should give you the help text or at least tell you why you got nothing'
   ]
   barrel: [
     (type) ->
