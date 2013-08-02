@@ -45,7 +45,6 @@ ben_actions = {
       input = input.split(' ');
       min = input[0] || 1;
       max = input[1] || 100;
-      console.info([parseInt(min), parseInt(max), input]);
       return getRandomInt(parseInt(min), parseInt(max));
     }, 'pick a random int, can supply min and max though by default you are requesting 1-100', {
       EXAMPLES: ['random', 'random 10 30']
