@@ -3,6 +3,7 @@ var LINK, NYI, auto_url_open, ben_actions, getRandomInt, html_color_names;
 
 auto_url_open = function(result) {
   var result_url_match;
+  console.info('in auto url open');
   result_url_match = /https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g.exec(result);
   if (result_url_match !== null && result_url_match[0] === result) {
     window.open(result);

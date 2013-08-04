@@ -75,10 +75,11 @@
                     },
                     ben_actions
                    )
-    decodeURIComponent(location.search).match(/[?](.*)/)[1].split('&').forEach(function(cmd){
-      console.info('auto',cmd)
-      t.element.exec(cmd)
-    })
+    if(location.search){
+      decodeURIComponent(location.search).match(/[?](.*)/)[1].split('&').forEach(function(cmd){
+        t.element.exec(cmd)
+      })
+    }
 
     // add in the custom url open action
     t.actions._custom_actions.push(auto_url_open)
