@@ -1,5 +1,4 @@
 auto_url_open = (result) ->
-  console.info 'in auto url open'
   result_url_match = /https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g.exec(result)
   if result_url_match != null && result_url_match[0] == result
     # action returned just a URL, kick open a new tab
