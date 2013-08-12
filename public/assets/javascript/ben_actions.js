@@ -95,7 +95,32 @@ ben_actions = {
       return results.join("\n");
     }, 'roll some dice', {
       EXAMPLES: ['roll d20', 'roll 3d10', 'roll 5d2 d4 d13'],
-      SYNTAX: 'a die is defined by "d" followed by a digit. you can roll the same die multipe times by preceeding the die with the number of times to roll'
+      SYNTAX: 'a die is defined by "d" followed by a digit. you can roll the same die multiple times by preceding the die with the number of times to roll'
+    }
+  ],
+  fate: [
+    function(fates) {
+      var fate, parse, pick, possible_fate, _i, _j, _len, _ref, _ref1;
+      if (fates.length === 0 || fates === void 0) {
+        throw 'fate requires input, see help fate for examples';
+      }
+      console.info('FATE: ', fates);
+      possible_fate = [];
+      _ref = fates.split(/;\s*/);
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        fate = _ref[_i];
+        parse = /(\d+)%\s*(.*)/.exec(fate);
+        for (_j = 1, _ref1 = parse[1]; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; 1 <= _ref1 ? _j++ : _j--) {
+          possible_fate.push(parse[2]);
+        }
+      }
+      pick = getRandomInt(1, possible_fate.length);
+      console.info('POSSIBLE FATE: ', possible_fate, possible_fate.length, pick, possible_fate[pick - 1]);
+      return "your fate is: " + possible_fate[pick - 1];
+    }, 'determine your fate', {
+      EXAMPLES: ['fate 15% die in a fire; 15% eat a goat; 70% win at chess'],
+      SYNTAX: "someNumber% instruction; someNumber% instruction; ...  someNumber% instruction",
+      NOTE: "If the total is not 100% then the provided input will be adjusted accordingly. For example 5% and 5% will be seen as value/total thus 50%."
     }
   ],
   barrel: [

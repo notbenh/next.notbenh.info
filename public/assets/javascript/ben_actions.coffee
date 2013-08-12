@@ -68,7 +68,28 @@ ben_actions =
       return results.join "\n"
     'roll some dice'
     EXAMPLES: ['roll d20', 'roll 3d10', 'roll 5d2 d4 d13']
-    SYNTAX: 'a die is defined by "d" followed by a digit. you can roll the same die multipe times by preceeding the die with the number of times to roll'
+    SYNTAX: 'a die is defined by "d" followed by a digit. you can roll the same die multiple times by preceding the die with the number of times to roll'
+  ]
+  fate: [
+    (fates) ->
+      throw 'fate requires input, see help fate for examples' if fates.length == 0 || fates == undefined
+      console.info 'FATE: ', fates
+      possible_fate = []
+      for fate in fates.split(/;\s*/)
+        # for example: 5% die in a fire
+        # parse[1] will be the 5 from 5%
+        # parse[2] will be 'die in a fire'
+        parse = /(\d+)%\s*(.*)/.exec fate
+        # now duplicate parse[2] across possible_fate parse[1] times
+        possible_fate.push(parse[2]) for [1..parse[1]]
+      pick = getRandomInt 1,possible_fate.length
+      console.info 'POSSIBLE FATE: ', possible_fate, possible_fate.length, pick, possible_fate[pick-1]
+      return "your fate is: #{possible_fate[pick-1]}"
+    'determine your fate'
+    EXAMPLES: ['fate 15% die in a fire; 15% eat a goat; 70% win at chess']
+    SYNTAX: "someNumber% instruction; someNumber% instruction; ...  someNumber% instruction"
+    NOTE: "If the total is not 100% then the provided input will be adjusted accordingly. For example 5% and 5% will be seen as value/total thus 50%."
+
   ]
   barrel: [
     (type) ->
