@@ -110,8 +110,10 @@ ben_actions = {
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         fate = _ref[_i];
         parse = /(\d+)\s*(.*)/.exec(fate);
-        for (_j = 1, _ref1 = parse[1]; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; 1 <= _ref1 ? _j++ : _j--) {
-          possible_fate.push(parse[2]);
+        if (parse[1] > 0) {
+          for (_j = 1, _ref1 = parse[1]; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; 1 <= _ref1 ? _j++ : _j--) {
+            possible_fate.push(parse[2]);
+          }
         }
       }
       pick = getRandomInt(1, possible_fate.length);

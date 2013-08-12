@@ -81,14 +81,15 @@ ben_actions =
         # parse[2] will be 'die in a fire'
         parse = /(\d+)\s*(.*)/.exec fate
         # now duplicate parse[2] across possible_fate parse[1] times
-        possible_fate.push(parse[2]) for [1..parse[1]]
+        if parse[1] > 0
+          possible_fate.push(parse[2]) for [1..parse[1]]
       pick = getRandomInt 1,possible_fate.length
       console.info 'POSSIBLE FATE: ', possible_fate, possible_fate.length, pick, possible_fate[pick-1]
       return "your fate is: #{possible_fate[pick-1]}"
     'determine your fate'
     EXAMPLES: ['fate 15 die in a fire; 15 eat a goat; 70 win at chess']
-    SYNTAX: "someNumber instruction; someNumber instruction; ...  someNumber instruction"
-    NOTE: "the total of someNumeber does not need to total 100 (as in 100%) rather the decision is based on random value between 1 and total. Thus you can emulate a coin flip with: fate 1 heads 1 tails"
+    SYNTAX: "someInt instruction; someInt instruction; ...  someInt instruction"
+    NOTE: "the total of someInt does not need to total 100 (as in 100%) rather the decision is based on random value between 1 and total. Thus you can emulate a coin flip with: fate 1 heads 1 tails"
 
   ]
   barrel: [
