@@ -79,12 +79,14 @@ ben_actions =
         # for example: 5 die in a fire
         # parse[1] will be the 5 from 5
         # parse[2] will be 'die in a fire'
-        parse = /(\d+)\s*(.*)/.exec fate
-        # now duplicate parse[2] across possible_fate parse[1] times
-        if parse[1] > 0
-          possible_fate.push(parse[2]) for [1..parse[1]]
+        try
+          parse = /(\d+)\s*(.*)/.exec fate
+          # now duplicate parse[2] across possible_fate parse[1] times
+          if parse[1] > 0
+            possible_fate.push(parse[2]) for [1..parse[1]]
+        catch
+          throw "ERROR: '#{fate}' is not properly formated"
       pick = getRandomInt 1,possible_fate.length
-      console.info 'POSSIBLE FATE: ', possible_fate, possible_fate.length, pick, possible_fate[pick-1]
       return "your fate is: #{possible_fate[pick-1]}"
     'determine your fate'
     EXAMPLES: ['fate 15 die in a fire; 15 eat a goat; 70 win at chess']
