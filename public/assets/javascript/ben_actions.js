@@ -109,7 +109,7 @@ ben_actions = {
       _ref = fates.split(/;\s*/);
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         fate = _ref[_i];
-        parse = /(\d+)%\s*(.*)/.exec(fate);
+        parse = /(\d+)\s*(.*)/.exec(fate);
         for (_j = 1, _ref1 = parse[1]; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; 1 <= _ref1 ? _j++ : _j--) {
           possible_fate.push(parse[2]);
         }
@@ -118,9 +118,9 @@ ben_actions = {
       console.info('POSSIBLE FATE: ', possible_fate, possible_fate.length, pick, possible_fate[pick - 1]);
       return "your fate is: " + possible_fate[pick - 1];
     }, 'determine your fate', {
-      EXAMPLES: ['fate 15% die in a fire; 15% eat a goat; 70% win at chess'],
-      SYNTAX: "someNumber% instruction; someNumber% instruction; ...  someNumber% instruction",
-      NOTE: "If the total is not 100% then the provided input will be adjusted accordingly. For example 5% and 5% will be seen as value/total thus 50%."
+      EXAMPLES: ['fate 15 die in a fire; 15 eat a goat; 70 win at chess'],
+      SYNTAX: "someNumber instruction; someNumber instruction; ...  someNumber instruction",
+      NOTE: "the total of someNumeber does not need to total 100 (as in 100%) rather the decision is based on random value between 1 and total. Thus you can emulate a coin flip with: fate 1 heads 1 tails"
     }
   ],
   barrel: [
