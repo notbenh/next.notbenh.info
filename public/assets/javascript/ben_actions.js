@@ -123,9 +123,9 @@ ben_actions = {
       pick = getRandomInt(1, possible_fate.length);
       return "your fate is: " + possible_fate[pick - 1];
     }, 'determine your fate', {
-      EXAMPLES: ['fate 15 die in a fire; 15 eat a goat; 70 win at chess'],
+      EXAMPLES: ['fate 15 die in a fire; 15 eat a goat; 70 win at chess', 'fate 1 heads; 1 tails'],
       SYNTAX: "someInt instruction; someInt instruction; ...  someInt instruction",
-      NOTE: "the total of someInt does not need to total 100 (as in 100%) rather the decision is based on random value between 1 and total. Thus you can emulate a coin flip with: fate 1 heads 1 tails"
+      NOTE: "the total of someInt does not need to total 100 (as in 100%) rather the decision is based on random value between 1 and total."
     }
   ],
   barrel: [
