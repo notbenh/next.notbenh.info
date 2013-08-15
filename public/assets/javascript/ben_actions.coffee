@@ -1,10 +1,9 @@
 auto_url_open = (result) ->
-  result_url_match = /https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g.exec(result)
-  if result_url_match != null && result_url_match[0] == result
-    # action returned just a URL, kick open a new tab
-    window.open(result)
-    result += ' [opened in new tab]'
-  return result
+  output = ''
+  for url in result.match(/https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g)
+    window.open(url)
+    output += url + " [opened in a new window or tab]\n"
+  return output
 
 getRandomInt = (min, max) -> return Math.floor(Math.random() * (max - min + 1)) + min
 getRandomArrayValue = (array) -> return array[getRandomInt(0,array.length-1)]

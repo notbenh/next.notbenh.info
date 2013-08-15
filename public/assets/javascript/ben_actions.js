@@ -2,13 +2,15 @@
 var LINK, NYI, auto_url_open, ben_actions, getRandomArrayValue, getRandomInt, html_color_names, qw, wordlist;
 
 auto_url_open = function(result) {
-  var result_url_match;
-  result_url_match = /https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g.exec(result);
-  if (result_url_match !== null && result_url_match[0] === result) {
-    window.open(result);
-    result += ' [opened in new tab]';
+  var output, url, _i, _len, _ref;
+  output = '';
+  _ref = result.match(/https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g);
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    url = _ref[_i];
+    window.open(url);
+    output += url + " [opened in a new window or tab]\n";
   }
-  return result;
+  return output;
 };
 
 getRandomInt = function(min, max) {
