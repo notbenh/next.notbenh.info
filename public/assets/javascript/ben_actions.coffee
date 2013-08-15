@@ -80,7 +80,7 @@ ben_actions =
       return ['HACK: ' + hack, 'REPLY: ' + reply].join("\n")
     'blatant stolen from whatshallihack.com'
     EXAMPLES: ['hack']
-
+    NOTE: 'hit up suggest if you have other ideas for words'
   ]
   roll : [
     (dice) ->
