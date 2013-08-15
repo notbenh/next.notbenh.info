@@ -1,8 +1,12 @@
 auto_url_open = (result) ->
   output = ''
   for url in result.match(/https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g)
-    window.open(url)
-    output += url + " [opened in a new window or tab]\n"
+    if autoURL_should_use_location
+      window.location = url
+      return 'initiate redirection to ' + url
+    else
+      window.open(url)
+      output += url + " [opened in a new window or tab]\n"
   return output
 
 getRandomInt = (min, max) -> return Math.floor(Math.random() * (max - min + 1)) + min

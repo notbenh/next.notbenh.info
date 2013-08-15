@@ -7,8 +7,13 @@ auto_url_open = function(result) {
   _ref = result.match(/https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g);
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     url = _ref[_i];
-    window.open(url);
-    output += url + " [opened in a new window or tab]\n";
+    if (autoURL_should_use_location) {
+      window.location = url;
+      return 'initiate redirection to ' + url;
+    } else {
+      window.open(url);
+      output += url + " [opened in a new window or tab]\n";
+    }
   }
   return output;
 };

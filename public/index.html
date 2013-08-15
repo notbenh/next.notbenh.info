@@ -81,9 +81,12 @@
     t._add_action('hello',function(name){return 'howdy ' + name + '! how are you today?'},'just saying hello',{EXAMPLE:['hello bob','hello silly bill']})
 
     if(location.search){
+      // stupid trick to use location rather then open to side step pop-up blocker logic
+      autoURL_should_use_location = 1
       decodeURIComponent(location.search).match(/[?](.*)/)[1].split('&').forEach(function(cmd){
         t.element.exec(cmd)
       })
+      autoURL_should_use_location = 0
     }
 
   })
