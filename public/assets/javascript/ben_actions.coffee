@@ -1,13 +1,17 @@
 auto_url_open = (result) ->
   output = ''
-  for url in result.match(/https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g)
-    if autoURL_should_use_location
-      window.location = url
-      return 'initiate redirection to ' + url
-    else
-      window.open(url)
-      output += url + " [opened in a new window or tab]\n"
-  return output
+  matches = result.match(/https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g)
+  if matches == null
+    return result
+  else
+    for url in matches
+      if autoURL_should_use_location
+        window.location = url
+        return 'initiate redirection to ' + url
+      else
+        window.open(url)
+        output += url + " [opened in a new window or tab]\n"
+    return output
 
 getRandomInt = (min, max) -> return Math.floor(Math.random() * (max - min + 1)) + min
 getRandomArrayValue = (array) -> return array[getRandomInt(0,array.length-1)]
@@ -55,6 +59,7 @@ ben_actions =
   ]
   word : [
     (word) -> 
+      console.info word
       word = new RegExp word
       for wordset in wordlist
         console.info wordset, word
@@ -65,6 +70,7 @@ ben_actions =
   ]
   wordlist : [
     () -> wordlist.join("\n")
+    'see the wordlist that word uses'
   ]
   roll : [
     (dice) ->

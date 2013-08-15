@@ -2,20 +2,24 @@
 var LINK, NYI, auto_url_open, ben_actions, getRandomArrayValue, getRandomInt, html_color_names, qw, wordlist;
 
 auto_url_open = function(result) {
-  var output, url, _i, _len, _ref;
+  var matches, output, url, _i, _len;
   output = '';
-  _ref = result.match(/https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g);
-  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-    url = _ref[_i];
-    if (autoURL_should_use_location) {
-      window.location = url;
-      return 'initiate redirection to ' + url;
-    } else {
-      window.open(url);
-      output += url + " [opened in a new window or tab]\n";
+  matches = result.match(/https?:\/\/(?:(?!&[^;]+;)[^\s:"'<>)])+/g);
+  if (matches === null) {
+    return result;
+  } else {
+    for (_i = 0, _len = matches.length; _i < _len; _i++) {
+      url = matches[_i];
+      if (autoURL_should_use_location) {
+        window.location = url;
+        return 'initiate redirection to ' + url;
+      } else {
+        window.open(url);
+        output += url + " [opened in a new window or tab]\n";
+      }
     }
+    return output;
   }
-  return output;
 };
 
 getRandomInt = function(min, max) {
@@ -78,6 +82,7 @@ ben_actions = {
   word: [
     function(word) {
       var wordset, _i, _len;
+      console.info(word);
       word = new RegExp(word);
       for (_i = 0, _len = wordlist.length; _i < _len; _i++) {
         wordset = wordlist[_i];
@@ -94,7 +99,7 @@ ben_actions = {
   wordlist: [
     function() {
       return wordlist.join("\n");
-    }
+    }, 'see the wordlist that word uses'
   ],
   roll: [
     function(dice) {

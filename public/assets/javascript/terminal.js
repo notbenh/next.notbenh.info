@@ -29,7 +29,8 @@ ActionSet = (function() {
       args = args.join(' ');
     }
     if (this.actions[verb] === void 0) {
-      throw '';
+      console.error(verb, this.help(verb));
+      throw 'umm';
     }
     result = this.actions[verb].action(args);
     _ref = this._custom_actions;
