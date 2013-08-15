@@ -1,0 +1,3 @@
+#!/bin/sh
+coffee -bc -w public/assets/javascript/*.coffee &
+gvim -p public/assets/javascript/*.coffee
