@@ -82,11 +82,9 @@ ben_actions = {
   word: [
     function(word) {
       var wordset, _i, _len;
-      console.info(word);
       word = new RegExp(word);
       for (_i = 0, _len = wordlist.length; _i < _len; _i++) {
         wordset = wordlist[_i];
-        console.info(wordset, word);
         if (wordset.match(word)) {
           return getRandomArrayValue(qw(wordset));
         }
@@ -106,7 +104,6 @@ ben_actions = {
       var hack, reply;
       hack = [getRandomArrayValue(hacklist.INTRO), getRandomArrayValue(hacklist.SOCIOPOLITICAL), getRandomArrayValue(hacklist.PHYSICAL), getRandomArrayValue(hacklist.ITEM)].join(' ');
       reply = getRandomArrayValue(hacklist.RESPONSES);
-      console.info([hack, reply]);
       return ['HACK: ' + hack, 'REPLY: ' + reply].join("\n");
     }, 'blatant stolen from whatshallihack.com', {
       EXAMPLES: ['hack'],
@@ -125,7 +122,6 @@ ben_actions = {
       _ref = dice.split(' ');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         die = _ref[_i];
-        console.info("DIE " + die);
         if (die === 'barrel') {
           results.push('[[;;;donkykong] ]');
         } else {
@@ -167,7 +163,6 @@ ben_actions = {
       if (fates.length === 0 || fates === void 0) {
         throw 'fate requires input, see help fate for examples';
       }
-      console.info('FATE: ', fates);
       possible_fate = [];
       _ref = fates.split(/;\s*/);
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {

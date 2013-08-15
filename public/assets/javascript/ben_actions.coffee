@@ -59,10 +59,8 @@ ben_actions =
   ]
   word : [
     (word) -> 
-      console.info word
       word = new RegExp word
       for wordset in wordlist
-        console.info wordset, word
         return getRandomArrayValue qw wordset if wordset.match(word)
       return "#{word} is not a known word"
     'because I can not spell very well, it was once joked that I would have a better chance by randomly picking a word rather then thinking I know better'
@@ -76,7 +74,6 @@ ben_actions =
     () -> 
       hack = [ getRandomArrayValue( hacklist.INTRO ), getRandomArrayValue( hacklist.SOCIOPOLITICAL ), getRandomArrayValue( hacklist.PHYSICAL ), getRandomArrayValue( hacklist.ITEM )].join(' ')
       reply  = getRandomArrayValue hacklist.RESPONSES
-      console.info [hack,reply]
       return ['HACK: ' + hack, 'REPLY: ' + reply].join("\n")
     'blatant stolen from whatshallihack.com'
     EXAMPLES: ['hack']
@@ -89,7 +86,6 @@ ben_actions =
       parse_die  = /^(\d*)?d(\d+)/
       roll_total = 0
       for die in dice.split(' ')
-        console.info "DIE #{die}"
         if die == 'barrel'
           results.push('[[;;;donkykong] ]')
         else
@@ -119,7 +115,6 @@ ben_actions =
   fate: [
     (fates) ->
       throw 'fate requires input, see help fate for examples' if fates.length == 0 || fates == undefined
-      console.info 'FATE: ', fates
       possible_fate = []
       for fate in fates.split(/;\s*/)
         # for example: 5 die in a fire
