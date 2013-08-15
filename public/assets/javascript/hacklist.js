@@ -200,4 +200,3 @@ hacklist = {
     "Are you selling the kit?",
   ]
 }
-console.info('hacklist loaded')
