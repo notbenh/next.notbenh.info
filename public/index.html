@@ -65,6 +65,7 @@
   <script src="assets/vendor/jquery.terminal/js/jquery.terminal-min.js"></script>
   <script src="assets/vendor/jstorage.js"></script>
   <script src="assets/javascript/terminal.js"></script>
+  <script src="assets/javascript/hacklist.js"></script>
   <script src="assets/javascript/ben_actions.js"></script>
   <script>
   jQuery(function($, undefined) {
@@ -86,8 +87,8 @@
       decodeURIComponent(location.search).match(/[?](.*)/)[1].split('&').forEach(function(cmd){
         t.element.exec(cmd)
       })
-      autoURL_should_use_location = 0
     }
+    autoURL_should_use_location = 0
 
   })
 
