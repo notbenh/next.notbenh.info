@@ -7,6 +7,7 @@ auto_url_open = (result) ->
   return result
 
 getRandomInt = (min, max) -> return Math.floor(Math.random() * (max - min + 1)) + min
+getRandomArrayValue = (array) -> return array[getRandomInt(0,array.length-1)]
 
 LINK = (url,note) -> 
   return [
@@ -28,13 +29,19 @@ ben_actions =
   github : LINK 'https://github.com/notbenh', 'my github account'
   blog   : LINK 'http://notbenh.github.io'  , 'the thing I call a blog'
   random : [
-    (input) ->
-      input = input.split(' ')
-      min = input[0] || 1
-      max = input[1] || 100
-      return getRandomInt parseInt(min), parseInt(max)
+    (input) -> getRandomArrayValue( input.split(' ') )
     'pick a random int, can supply min and max though by default you are requesting 1-100'
     EXAMPLES: ['random', 'random 10 30']
+  ]
+  pick : [
+    (input) -> 
+      input = input.split(' ')
+      pick = getRandomArrayValue( input )
+      console.info input, pick
+      return pick
+    'pick a random instance from the supplied input'
+    EXAMPLES: ['pick taco burger pasta']
+    NOTE: 'Currently this verb will split the input on spaces, thus you might not get what you want. I mention this as it might change later.'
   ]
   roll : [
     (dice) ->
