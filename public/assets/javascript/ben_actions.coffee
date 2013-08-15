@@ -21,6 +21,12 @@ NYI  = (note) ->
     "[not yet implemented] #{note}"
   ]
 
+wordlist = [
+ "sense cents scents since",
+ "then than",
+ "their there they're"
+]
+
 ben_actions =
   tdone  : NYI 'todo list manager'
   suggest: LINK 'https://github.com/notbenh/next.notbenh.info/issues', 'suggest issues via github'
@@ -43,6 +49,19 @@ ben_actions =
     'pick a random instance from the supplied input'
     EXAMPLES: ['pick taco burger pasta']
     NOTE: 'Currently this verb will split the input on spaces, thus you might not get what you want. I mention this as it might change later.'
+  ]
+  word : [
+    (word) -> 
+      word = new RegExp word
+      for wordset in wordlist
+        console.info wordset, word
+        return getRandomArrayValue qw wordset if wordset.match(word)
+      return "#{word} is not a known word"
+    'because I can not spell very well, it was once joked that I would have a better chance by randomly picking a word rather then thinking I know better'
+    EXAMPLES: ['word then', 'word sense']
+  ]
+  wordlist : [
+    () -> wordlist.join("\n")
   ]
   roll : [
     (dice) ->
