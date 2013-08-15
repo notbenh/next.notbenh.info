@@ -101,6 +101,17 @@ ben_actions = {
       return wordlist.join("\n");
     }, 'see the wordlist that word uses'
   ],
+  hack: [
+    function() {
+      var hack, reply;
+      hack = [getRandomArrayValue(hacklist.INTRO), getRandomArrayValue(hacklist.SOCIOPOLITICAL), getRandomArrayValue(hacklist.PHYSICAL), getRandomArrayValue(hacklist.ITEM)].join(' ');
+      reply = getRandomArrayValue(hacklist.RESPONSES);
+      console.info([hack, reply]);
+      return ['HACK: ' + hack, 'REPLY: ' + reply].join("\n");
+    }, 'blatant stolen from whatshallihack.com', {
+      EXAMPLES: ['hack']
+    }
+  ],
   roll: [
     function(dice) {
       var count, die, die_max, i, max, min, parse, parse_die, results, roll, roll_total, total, _i, _j, _len, _ref, _ref1, _ref2;

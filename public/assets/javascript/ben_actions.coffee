@@ -72,6 +72,16 @@ ben_actions =
     () -> wordlist.join("\n")
     'see the wordlist that word uses'
   ]
+  hack : [
+    () -> 
+      hack = [ getRandomArrayValue( hacklist.INTRO ), getRandomArrayValue( hacklist.SOCIOPOLITICAL ), getRandomArrayValue( hacklist.PHYSICAL ), getRandomArrayValue( hacklist.ITEM )].join(' ')
+      reply  = getRandomArrayValue hacklist.RESPONSES
+      console.info [hack,reply]
+      return ['HACK: ' + hack, 'REPLY: ' + reply].join("\n")
+    'blatant stolen from whatshallihack.com'
+    EXAMPLES: ['hack']
+
+  ]
   roll : [
     (dice) ->
       throw 'roll requires input, see help roll for examples' if dice.length == 0 || dice == undefined
