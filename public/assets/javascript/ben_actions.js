@@ -221,7 +221,8 @@ ben_actions = {
   ],
   reload: [
     function() {
-      return window.location.reload();
+      window.location.reload();
+      return '';
     }, 'reload the term'
   ],
   repeat: [

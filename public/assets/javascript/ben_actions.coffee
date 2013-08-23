@@ -157,7 +157,9 @@ ben_actions =
     'random yes or no'
   ]
   reload : [
-    -> window.location.reload()
+    ()-> 
+      window.location.reload()
+      ''
     'reload the term'
   ]
   repeat : [
