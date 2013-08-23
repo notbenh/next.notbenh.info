@@ -41,7 +41,7 @@ ben_actions =
   about  : LINK 'http://about.notbenh.info' , 'about me'
   twitter: LINK 'http://twitter.com/notbenh', 'my twitter account'
   github : LINK 'https://github.com/notbenh', 'my github account'
-  blog   : LINK 'http://notbenh.github.io'  , 'the thing I call a blog'
+  blog   : LINK 'http://blog.notbenh.info'  , 'the thing I call a blog'
   random : [
     (input) ->
       input = qw input
