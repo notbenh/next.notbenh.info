@@ -51,6 +51,11 @@ ben_actions =
     'pick a random int, can supply min and max though by default you are requesting 1-100'
     EXAMPLES: ['random', 'random 10 30']
   ]
+  should : [
+    (question) -> 'no'
+    'ask the computer if you should be doing something'
+    EXAMPLES: ['should I buy a new watch', 'should I get another car']
+  ]
   pick : [
     (input) -> getRandomArrayValue qw input
     'pick a random instance from the supplied input'

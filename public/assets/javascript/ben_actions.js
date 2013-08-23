@@ -71,6 +71,13 @@ ben_actions = {
       EXAMPLES: ['random', 'random 10 30']
     }
   ],
+  should: [
+    function(question) {
+      return 'no';
+    }, 'ask the computer if you should be doing something', {
+      EXAMPLES: ['should I buy a new watch', 'should I get another car']
+    }
+  ],
   pick: [
     function(input) {
       return getRandomArrayValue(qw(input));
