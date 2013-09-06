@@ -56,6 +56,11 @@ ben_actions =
     'ask the computer if you should be doing something'
     EXAMPLES: ['should I buy a new watch', 'should I get another car']
   ]
+  could : [
+    (question) -> 'yes'
+    'ask the computer if you could be doing something, though I am guessing that you would want to ask if you should.'
+    EXAMPLES: ['could I buy a new watch', 'could I get another car']
+  ]
   pick : [
     (input) -> getRandomArrayValue qw input
     'pick a random instance from the supplied input'

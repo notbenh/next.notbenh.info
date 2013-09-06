@@ -78,6 +78,13 @@ ben_actions = {
       EXAMPLES: ['should I buy a new watch', 'should I get another car']
     }
   ],
+  could: [
+    function(question) {
+      return 'yes';
+    }, 'ask the computer if you could be doing something, though I am guessing that you would want to ask if you should.', {
+      EXAMPLES: ['could I buy a new watch', 'could I get another car']
+    }
+  ],
   pick: [
     function(input) {
       return getRandomArrayValue(qw(input));
