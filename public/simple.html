@@ -2,59 +2,101 @@
 <html>
 <head>
   <style>
+    div.tile {
+      border: 1px solid #000;
+      height:300px;
+      overflow: scroll; /* should change */
+    }
+    div.command {
+      background-color: #FCC;
+    }
+    div.response {
+      background-color: #CCF;
+    }
   </style>
 </head>
 <body>
-<h1>CONCEPT</h1>
-<p>
-Ok so the goal here is to completely get out of the terminal thing.
-While neat to look at, the expectations that it has and the ones that I
-need are different enough that it is starting to get hard to mold my
-ideas back to it's restrictions. So the idea is to completely ditch any
-notion of a commandline and just have an action and response idea.
-</p>
-<p>
-As a simple first go I would like to just use a text area, auto-focus,
-and allow the user to type and hitting enter 'submits' the form. Then
-the work flow would look something like: 
-</p>
+<div id='intro' class='tile'>
+  <h1>CONCEPT</h1>
+  <p>
+  Ok so the goal here is to completely get out of the terminal thing.
+  While neat to look at, the expectations that it has and the ones that I
+  need are different enough that it is starting to get hard to mold my
+  ideas back to it's restrictions. So the idea is to completely ditch any
+  notion of a commandline and just have an action and response idea.
+  </p>
+  <p>
+  As a simple first go I would like to just use a text area, auto-focus,
+  and allow the user to type and hitting enter 'submits' the form. Then
+  the work flow would look something like: 
+  </p>
 
-<ol>
-  <li>capture the content of the text area</li>
-  <li>create new 'div' to replace the text area with the content (static
-  history)</li>
-  <li>use content to preform action (much like now). I am guessing that
-  most of the code will stay the same though the [] formatting will
-  likely need to be drastically changed as it's a bit much. I will
-  likely end up with an ouput object that defines how it is displayed
-  but that's for v2.
-  </li>
-  <li>reply from action is then fed in to a 'new' div that is added to a
-  history stack and the view pane is then adjusted to display that
-  result. Ideally I would like to have a stack of view pane sized divs
-  that [command] => [reply] => [command] => [reply] .... though for v0
-  just getting the content on screen is far more important then looking
-  good.</li>
-  <li>have the 'next' command tile built but not focused. Thus if the
-  user scrolls down by hand or just starts typing then we focus the
-  single text area again. Thus the cycle repeats.
-  </li>
-</ol>
+  <ol>
+    <li>capture the content of the text area</li>
+    <li>create new 'div' to replace the text area with the content (static
+    history)</li>
+    <li>use content to preform action (much like now). I am guessing that
+    most of the code will stay the same though the [] formatting will
+    likely need to be drastically changed as it's a bit much. I will
+    likely end up with an ouput object that defines how it is displayed
+    but that's for v2.
+    </li>
+    <li>reply from action is then fed in to a 'new' div that is added to a
+    history stack and the view pane is then adjusted to display that
+    result. Ideally I would like to have a stack of view pane sized divs
+    that [command] => [reply] => [command] => [reply] .... though for v0
+    just getting the content on screen is far more important then looking
+    good.</li>
+    <li>have the 'next' command tile built but not focused. Thus if the
+    user scrolls down by hand or just starts typing then we focus the
+    single text area again. Thus the cycle repeats.
+    </li>
+  </ol>
 
-<h1>FEATURES/TASKS</h1>
-<ul>
-  <li>single text input ('default hint' is something like 'type help'),
-  though the usefulness of that would only work for the first few
-  attempts I guess.</li>
-  <li>actions object like now, ideally this could be swapped out</li>
-  <li>output object that defines how the output is displayed. I am not
-  quite sure how tightly cuppled this should be to the actions
-  object?</li>
-  <li>output must be able to determine the color and style of the output
-  div, see no.html as an example of what I want a single output tile to
-  look like.</li>
-</ul>
+  <h1>FEATURES/TASKS</h1>
+  <ul>
+    <li>single text input ('default hint' is something like 'type help'),
+    though the usefulness of that would only work for the first few
+    attempts I guess.</li>
+    <li>actions object like now, ideally this could be swapped out</li>
+    <li>output object that defines how the output is displayed. I am not
+    quite sure how tightly cuppled this should be to the actions
+    object?</li>
+    <li>output must be able to determine the color and style of the output
+    div, see no.html as an example of what I want a single output tile to
+    look like.</li>
+  </ul>
+</div>
+  <script src="assets/vendor/html5.js"></script>
+  <script src="assets/vendor/jquery.min.js"></script>
   <script>
+    formInput = "<form action='#' onsubmit='parseCommand()'><input type='text'></input></form>"
+    function scrollToNewTile(){ 
+      goTo = lastTile().position().top
+      //$(window).scrollTop( lastTile().position().top ) 
+      $(window).scrollTop( 
+      alert('scroll ' + goTo )
+    }
+    function lastTile(){ return $('.tile').last() }
+    function Tile(type,body){ return "<div class='" + type + " tile'>" + body + "</div>" }
+    function addTile(type,body){ $('body').append( Tile(type,body) ) }
+    function addCommandTile(){ 
+      addTile('command', formInput )
+      lastTile().find('input').focus()
+    }
+    function parseCommand(){
+      content = lastTile().find('input').val()
+      console.info(content)
+      lastTile().find('form').replaceWith("<div class='command'>" + content + "</div>")
+      addTile('response','REPLY: ' + content)
+      scrollToNewTile()
+      addCommandTile()
+    }
+    jQuery(function($, undefined) {
+      console.info('loaded')
+      addCommandTile()
+      scrollToNewTile()
+    })
   </script>
 </body>
 </html>
