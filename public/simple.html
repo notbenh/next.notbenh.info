@@ -5,7 +5,7 @@
     div.tile {
       border: 1px solid #000;
       height:600px;
-      overflow: scroll; /* should change */
+      overflow: auto; /* should change */
     }
     div.command {
       background-color: #FCC;
@@ -81,6 +81,43 @@
   <script src="assets/javascript/hacklist.js"></script>
   <script src="assets/javascript/ben_actions.js"></script>
   <script>
+  function fit (text,element){
+    var size;
+    var width = element.innerWidth()
+    var height = element.innerHeight()
+    var resizer = $('<div />').hide().appendTo(document.body)
+    // start out with a rough guess
+    resizer.css('font-size', parseInt(width/text.length) + 10)
+    resizer.html(text);
+    console.info('START',[width,text.length,parseInt(width/text.length)+10])
+    console.info('RATIO',{ height: [ element.innerHeight(), resizer.innerHeight(), element.innerHeight() / resizer.innerHeight()]
+                         , width:  [ element.innerWidth() , resizer.innerWidth() , element.innerWidth() / resizer.innerWidth()]
+                         })
+
+    // TODO this should be driven by a ratio as to not have to loop twice
+    if(resizer.innerWidth() > width || resizer.innerHeight() > height){
+      while(resizer.innerWidth() > width && resizer.innerHeight() > height) { 
+        size = parseInt(resizer.css("font-size"), 10);
+        console.info(size
+        resizer.css("font-size", size - 1);
+      }
+    }
+    else{
+      while(resizer.innerWidth() <= width && resizer.innerHeight() <= height) {
+        size = parseInt(resizer.css("font-size"), 10);
+        console.info(size)
+        resizer.css("font-size", size + 1);
+      }
+    }
+
+    element.css("font-size", size).html(resizer.html());
+    resizer.remove()
+  }
+
+
+
+
+
     function CLI (inputID,outputID,actions){
       window.reload = function(){ window.location.reload() }
       this.in = $(inputID) // NOTE this is expected to be an input not the div
@@ -96,7 +133,10 @@
                     , focus        : function(){ return this.in.focus() }
                     , addTile      : function(type,input,body){ 
                                        // TODO it might be nice that type could take an array
-                                       return this.out.prepend( "<div class='" + type + " tile'><div class='input'>" + this.escape(input) + "</div><div class='output'>" + body + "</div></div>" )
+                                       tile = $( "<div class='" + type + " tile'><div class='input'></div><div class='output'></div></div>" )
+                                       this.out.prepend( tile )
+                                       fit(this.escape(input),tile.find('div.input'))
+                                       fit(body,tile.find('div.output'))
                                      }
                     , escape       : function(content){ return content.replace(/</g,'&lt;').replace(/>/g,'&gt;') } // might need more cleaning 
                     , getContent   : function(){ return this.in.val() }
