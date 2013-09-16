@@ -4,7 +4,7 @@
   <style>
     div.tile {
       border: 1px solid #000;
-      height:300px;
+      height:600px;
       overflow: scroll; /* should change */
     }
     div.command {
@@ -16,86 +16,164 @@
   </style>
 </head>
 <body>
-<div id='intro' class='tile'>
-  <h1>CONCEPT</h1>
-  <p>
-  Ok so the goal here is to completely get out of the terminal thing.
-  While neat to look at, the expectations that it has and the ones that I
-  need are different enough that it is starting to get hard to mold my
-  ideas back to it's restrictions. So the idea is to completely ditch any
-  notion of a commandline and just have an action and response idea.
-  </p>
-  <p>
-  As a simple first go I would like to just use a text area, auto-focus,
-  and allow the user to type and hitting enter 'submits' the form. Then
-  the work flow would look something like: 
-  </p>
-
-  <ol>
-    <li>capture the content of the text area</li>
-    <li>create new 'div' to replace the text area with the content (static
-    history)</li>
-    <li>use content to preform action (much like now). I am guessing that
-    most of the code will stay the same though the [] formatting will
-    likely need to be drastically changed as it's a bit much. I will
-    likely end up with an ouput object that defines how it is displayed
-    but that's for v2.
-    </li>
-    <li>reply from action is then fed in to a 'new' div that is added to a
-    history stack and the view pane is then adjusted to display that
-    result. Ideally I would like to have a stack of view pane sized divs
-    that [command] => [reply] => [command] => [reply] .... though for v0
-    just getting the content on screen is far more important then looking
-    good.</li>
-    <li>have the 'next' command tile built but not focused. Thus if the
-    user scrolls down by hand or just starts typing then we focus the
-    single text area again. Thus the cycle repeats.
-    </li>
-  </ol>
-
-  <h1>FEATURES/TASKS</h1>
-  <ul>
-    <li>single text input ('default hint' is something like 'type help'),
-    though the usefulness of that would only work for the first few
-    attempts I guess.</li>
-    <li>actions object like now, ideally this could be swapped out</li>
-    <li>output object that defines how the output is displayed. I am not
-    quite sure how tightly cuppled this should be to the actions
-    object?</li>
-    <li>output must be able to determine the color and style of the output
-    div, see no.html as an example of what I want a single output tile to
-    look like.</li>
-  </ul>
+<div id='CLI'>
+  <form action='#'>
+    <input type='text'></input>
+  </form>
 </div>
+<div id='tiles'>
+  <div id='intro' class='tile'>
+    <h1>CONCEPT</h1>
+    <p>
+    Ok so the goal here is to completely get out of the terminal thing.
+    While neat to look at, the expectations that it has and the ones that I
+    need are different enough that it is starting to get hard to mold my
+    ideas back to it's restrictions. So the idea is to completely ditch any
+    notion of a commandline and just have an action and response idea.
+    </p>
+    <p>
+    As a simple first go I would like to just use a text area, auto-focus,
+    and allow the user to type and hitting enter 'submits' the form. Then
+    the work flow would look something like: 
+    </p>
+
+    <ol>
+      <li>capture the content of the text area</li>
+      <li>create new 'div' to replace the text area with the content (static
+      history)</li>
+      <li>use content to preform action (much like now). I am guessing that
+      most of the code will stay the same though the [] formatting will
+      likely need to be drastically changed as it's a bit much. I will
+      likely end up with an ouput object that defines how it is displayed
+      but that's for v2.
+      </li>
+      <li>reply from action is then fed in to a 'new' div that is added to a
+      history stack and the view pane is then adjusted to display that
+      result. Ideally I would like to have a stack of view pane sized divs
+      that [command] => [reply] => [command] => [reply] .... though for v0
+      just getting the content on screen is far more important then looking
+      good.</li>
+      <li>have the 'next' command tile built but not focused. Thus if the
+      user scrolls down by hand or just starts typing then we focus the
+      single text area again. Thus the cycle repeats.
+      </li>
+    </ol>
+
+    <h1>FEATURES/TASKS</h1>
+    <ul>
+      <li>single text input ('default hint' is something like 'type help'),
+      though the usefulness of that would only work for the first few
+      attempts I guess.</li>
+      <li>actions object like now, ideally this could be swapped out</li>
+      <li>output object that defines how the output is displayed. I am not
+      quite sure how tightly cuppled this should be to the actions
+      object?</li>
+      <li>output must be able to determine the color and style of the output
+      div, see no.html as an example of what I want a single output tile to
+      look like.</li>
+    </ul>
+  </div>
+</div>
+
   <script src="assets/vendor/html5.js"></script>
   <script src="assets/vendor/jquery.min.js"></script>
+  <script src="assets/javascript/terminal.js"></script>
+  <script src="assets/javascript/hacklist.js"></script>
+  <script src="assets/javascript/ben_actions.js"></script>
   <script>
-    formInput = "<form action='#' onsubmit='parseCommand()'><input type='text'></input></form>"
-    function scrollToNewTile(){ 
-      goTo = lastTile().position().top
-      //$(window).scrollTop( lastTile().position().top ) 
-      $(window).scrollTop( 
-      alert('scroll ' + goTo )
+    function CLI (inputID,outputID,actions){
+      window.reload = function(){ window.location.reload() }
+      this.in = $(inputID) // NOTE this is expected to be an input not the div
+      this.out= $(outputID)
+      this.actions = new ActionSet('instance',actions) 
+      this.history = [] // should be an object so that ! can just be a reverse find
+      this.init(this)
     }
-    function lastTile(){ return $('.tile').last() }
-    function Tile(type,body){ return "<div class='" + type + " tile'>" + body + "</div>" }
-    function addTile(type,body){ $('body').append( Tile(type,body) ) }
-    function addCommandTile(){ 
-      addTile('command', formInput )
-      lastTile().find('input').focus()
+    CLI.prototype = { init         : function(self){
+                                       self.in.closest('form').submit(function(e){self.handleSubmit(e)}) 
+                                       self.in.focus()
+                                     }
+                    , focus        : function(){ return this.in.focus() }
+                    , addTile      : function(type,input,body){ 
+                                       // TODO it might be nice that type could take an array
+                                       return this.out.prepend( "<div class='" + type + " tile'><div class='input'>" + this.escape(input) + "</div><div class='output'>" + body + "</div></div>" )
+                                     }
+                    , escape       : function(content){ return content.replace(/</g,'&lt;').replace(/>/g,'&gt;') } // might need more cleaning 
+                    , getContent   : function(){ return this.in.val() }
+                    , parseContent : function(){ 
+                                       var parts = new String( this.getContent() ).split(/\w+/)
+                                       this.command = parts.shift()
+                                       this.input   = parts.join(' ')
+                                     }
+                    , resetContent : function(){ return this.in.val('') }
+                    // TODO have a way to clear tiles with out clearing history
+                    , handleSubmit : function(e){ 
+                                       var command         = this.getContent()
+                                       var history_element = {input: command} // pre-mod command
+                                       var store_history   = 1
+                                       var reply = 'TBD!'
+                                       var type  = 'response'
+
+                                       if( /^\!/.test(command) ){
+                                         store_history = 0
+                                         var find = /\!+(.*)/.exec(command)[1]
+                                         h = this.history().data()
+                                         re = new RegExp( find )
+                                         command = this.history().filter( function(i){ re.exec(i) })[0] || command
+                                         console.info('BANG FIND',command)
+                                       }
+
+                                       if(command == ''){
+                                         reply = '' // no in = no out
+                                       }
+                                       else if( command == 'history' ){
+                                         // TODO possibly make this a ul?
+                                         reply = this.history.join('</br>')
+                                       }
+                                       else if( /^help/.test(command) ){
+                                         match = /^help\s*(\w+)?/.exec(command)
+                                         reply = this.actions.help(match[1])
+                                       }
+                                       else {
+                                         try {
+                                           re = this.actions.do(command)
+                                           reply = (re.length > 0) ? re : ''
+                                         }
+                                         catch(e) {
+                                           type += ' error'
+                                           reply = (e.length > 0) ? e : this.actions.help(command)
+                                         }
+                                       }
+
+                                       history_element.output = reply
+                                       if( store_history ){
+                                         this.history.push(history_element)
+                                       }
+                                       console.info('ADDTILE:',['response',command,reply])
+                                       this.addTile('response',command,reply)
+                                       this.resetContent()
+                                       this.focus()
+                                     }
     }
+
+
+
+
+
+    function focusCLI(){ $('#CLI input').focus() }
+    function addTile(type,body){ $('#tiles').prepend( "<div class='" + type + " tile'>" + body + "</div>" ) }
     function parseCommand(){
-      content = lastTile().find('input').val()
-      console.info(content)
-      lastTile().find('form').replaceWith("<div class='command'>" + content + "</div>")
-      addTile('response','REPLY: ' + content)
-      scrollToNewTile()
-      addCommandTile()
+      CLI = $('#CLI input')
+      content = CLI.val() // collect content from CLI
+      content_escaped = CLI.val().replace(/</g,'&lt;').replace(/>/g,'&gt;') // might need more cleaning
+      CLI.val('') // reset CLI
+      addTile('response','COMMAND: ' + content_escaped + 'REPLY: ' + content )
+      focusCLI()
     }
     jQuery(function($, undefined) {
       console.info('loaded')
-      addCommandTile()
-      scrollToNewTile()
+      //focusCLI()
+      window.cli = new CLI('#CLI input','#tiles',ben_actions)
     })
   </script>
 </body>
