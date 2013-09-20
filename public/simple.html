@@ -36,7 +36,6 @@
       height: 540px;
       line-height: 540px;
       background-color: #5353ec;
-      border: 2px dotted #F00;
     }
   </style>
 </head>
@@ -107,83 +106,6 @@
   <script src="assets/javascript/hacklist.js"></script>
   <script src="assets/javascript/ben_actions.js"></script>
   <script>
-  function fit (text,element){
-    var size;
-    var width = element.innerWidth()
-    var height = element.innerHeight()
-    var resizer = $('<span />').hide().appendTo(document.body)
-    // start out with a rough guess
-    resizer.css('font-size', parseInt(width/text.length) + 10)
-    resizer.html(text);
-    console.info('START',[width,text.length,parseInt(width/text.length)+10])
-
-    failsafe = 100
-
-    // TESTING a width => height ordering, 
-    // width should only grow 
-    while(resizer.innerWidth() < width ) { 
-      failsafe-=1
-      if(failsafe == 0){
-        console.error('WIDTH OVERFLOW CONDITION')
-        break;
-      }
-      size = parseInt(resizer.css("font-size"), 10);
-      console.info('width', size)
-      resizer.css("font-size", size * 1.1 );
-    }
-
-    console.info(resizer.innerHeight() > height )
-
-    // at this point we should be larger then our box, now reduce by height
-    while(resizer.innerHeight() > height ) { 
-      failsafe-=1
-      if(failsafe == 0){
-        console.error('HEIGHT OVERFLOW CONDITION')
-        break;
-      }
-      size = parseInt(resizer.css("font-size"), 10);
-      console.info('height', size)
-      resizer.css("font-size", size * 0.95);
-    }
-
-
-    // TODO this should be driven by a ratio as to not have to loop twice
-    /*
-    if(resizer.innerWidth() > width || resizer.innerHeight() > height){
-      while(resizer.innerWidth() > width && resizer.innerHeight() > height) { 
-        failsafe-=1
-        if(failsafe == 0){
-          console.error('OVERFLOW CONDITION')
-          break;
-        }
-        size = parseInt(resizer.css("font-size"), 10);
-        console.info(size)
-        resizer.css("font-size", size - 1);
-      }
-    }
-    else{
-      while(resizer.innerWidth() <= width && resizer.innerHeight() <= height) {
-        failsafe-=1
-        if(failsafe == 0){
-          console.error('OVERFLOW CONDITION')
-          break;
-        }
-        size = parseInt(resizer.css("font-size"), 10);
-        console.info(size)
-        resizer.css("font-size", size + 1);
-      }
-    }
-    */
-
-    //element.css("font-size", size).html(resizer.html());
-    element.append(resizer);
-    //resizer.remove()
-  }
-
-
-
-
-
     function CLI (inputID,outputID,actions){
       window.reload = function(){ window.location.reload() }
       this.in = $(inputID) // NOTE this is expected to be an input not the div
@@ -202,10 +124,8 @@
                                        //tile = $( "<div class='" + type + " tile'><span class='input'>&nbsp;</span><span class='output'>&nbsp;</span></div>" )
                                        tile = $( "<div class='" + type + " tile'><div class='input'>&nbsp;</div><div class='output'>&nbsp;</div></div>" )
                                        this.out.prepend( tile )
-                                       //fit(this.escape(input), tile.find('.input'))
-                                       //fit(body, tile.find('.output'))
                                        tile.find('.input').html( this.escape(input) ).fitText(1,{ minFontSize: '20px', maxFontSize: '60px' })
-                                       tile.find('.output').html(body).fitText()
+                                       tile.find('.output').html(body).fitText(1,{ minFontSize: '20px', maxFontSize: '540px' })
                                        return tile
                                      }
                     , escape       : function(content){ return content.replace(/</g,'&lt;').replace(/>/g,'&gt;') } // might need more cleaning 
