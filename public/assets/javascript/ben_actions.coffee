@@ -37,20 +37,20 @@ wordlist = [
 ben_actions =
   tdone  : NYI 'todo list manager'
   suggest: LINK 'https://github.com/notbenh/next.notbenh.info/issues', 'suggest issues via github'
-  resume : LINK 'http://resume.notbenh.info', 'my resume'
+  resume : LINK 'http://resume.notbenh.info', 'my r&eacute;sum&eacute;'
   about  : LINK 'http://about.notbenh.info' , 'about me'
-  twitter: LINK 'http://twitter.com/notbenh', 'my twitter account'
+  #twitter: LINK 'http://twitter.com/notbenh', 'my twitter account'
   github : LINK 'https://github.com/notbenh', 'my github account'
   blog   : LINK 'http://blog.notbenh.info'  , 'the thing I call a blog'
-  random : [
-    (input) ->
-      input = qw input
-      min = input[0] || 1
-      max = input[1] || 100
-      return getRandomInt parseInt(min), parseInt(max)
-    'pick a random int, can supply min and max though by default you are requesting 1-100'
-    EXAMPLES: ['random', 'random 10 30']
-  ]
+  #random : [
+  #  (input) ->
+  #    input = qw input
+  #    min = input[0] || 1
+  #    max = input[1] || 100
+  #    return getRandomInt parseInt(min), parseInt(max)
+  #  'pick a random int, can supply min and max though by default you are requesting 1-100'
+  #  EXAMPLES: ['random', 'random 10 30']
+  #]
   should : [
     (question) -> 'no'
     'ask the computer if you should be doing something'

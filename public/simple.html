@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!--
   <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  -->
   <link href='http://fonts.googleapis.com/css?family=Quicksand|Ubuntu:300|Raleway|Julius+Sans+One' rel='stylesheet' type='text/css'>
   <style>
     body{
@@ -10,94 +12,108 @@
       @import url(http://fonts.googleapis.com/css?family=Quicksand|Ubuntu:300|Raleway|Julius+Sans+One);
       font-family: 'Quicksand', sans-serif;
       font-family: 'Ubuntu', sans-serif;
-      font-family: 'Raleway', sans-serif;
-      */
       font-family: 'Julius Sans One', sans-serif;
+      */
+      font-family: 'Raleway', sans-serif;
       text-rendering: auto;
     }
     div.tile {
       border: 1px solid #000;
       height:600px;
-      //font-size:100px;
-      overflow: auto; /* should change */
+      overflow: hidden; /* should change */
     }
-    div.command {
-      background-color: #FCC;
+    div.tile h2 {
+      font-size: 600%;
+      color:#F00;
     }
-    div.response {
-      background-color: #CCF;
+    div#CLI_input{
+      height: 55px;
+      font-size: 30px;
+      line-height: 25px;
+    }
+    div#CLI_input h1{
+      display: inline;
+    }
+    div#CLI_input input{
+      height: 55px;
+      right: 5px;
+      margin-left:20px;
+      font-size: 50px;
+      line-height: 50px;
     }
   </style>
 </head>
 <body>
 <div id='CLI'>
-  <form action='#'>
-    <input type='text'></input>
-  </form>
-</div>
-<div id='tiles'>
-  <div id='intro' class='tile'>
-    <h1>CONCEPT</h1>
-    <p>
-    Ok so the goal here is to completely get out of the terminal thing.
-    While neat to look at, the expectations that it has and the ones that I
-    need are different enough that it is starting to get hard to mold my
-    ideas back to it's restrictions. So the idea is to completely ditch any
-    notion of a commandline and just have an action and response idea.
-    </p>
-    <p>
-    As a simple first go I would like to just use a text area, auto-focus,
-    and allow the user to type and hitting enter 'submits' the form. Then
-    the work flow would look something like: 
-    </p>
+  <div id='CLI_input'>
+    <form action='#'> 
+      <h1>~/notbenh ></h1><input type='text' placeholder="confused? type 'help' and hit enter"></input>
+    </form>
+  </div>
+  <div id='tiles'>
+    <div id='intro' class='tile'>
+      <h1>CONCEPT</h1>
+      <p>
+      Ok so the goal here is to completely get out of the terminal thing.
+      While neat to look at, the expectations that it has and the ones that I
+      need are different enough that it is starting to get hard to mold my
+      ideas back to it's restrictions. So the idea is to completely ditch any
+      notion of a commandline and just have an action and response idea.
+      </p>
+      <p>
+      As a simple first go I would like to just use a text area, auto-focus,
+      and allow the user to type and hitting enter 'submits' the form. Then
+      the work flow would look something like: 
+      </p>
 
-    <ol>
-      <li>capture the content of the text area</li>
-      <li>create new 'div' to replace the text area with the content (static
-      history)</li>
-      <li>use content to preform action (much like now). I am guessing that
-      most of the code will stay the same though the [] formatting will
-      likely need to be drastically changed as it's a bit much. I will
-      likely end up with an ouput object that defines how it is displayed
-      but that's for v2.
-      </li>
-      <li>reply from action is then fed in to a 'new' div that is added to a
-      history stack and the view pane is then adjusted to display that
-      result. Ideally I would like to have a stack of view pane sized divs
-      that [command] => [reply] => [command] => [reply] .... though for v0
-      just getting the content on screen is far more important then looking
-      good.</li>
-      <li>have the 'next' command tile built but not focused. Thus if the
-      user scrolls down by hand or just starts typing then we focus the
-      single text area again. Thus the cycle repeats.
-      </li>
-    </ol>
+      <ol>
+        <li>capture the content of the text area</li>
+        <li>create new 'div' to replace the text area with the content (static
+        history)</li>
+        <li>use content to preform action (much like now). I am guessing that
+        most of the code will stay the same though the [] formatting will
+        likely need to be drastically changed as it's a bit much. I will
+        likely end up with an ouput object that defines how it is displayed
+        but that's for v2.
+        </li>
+        <li>reply from action is then fed in to a 'new' div that is added to a
+        history stack and the view pane is then adjusted to display that
+        result. Ideally I would like to have a stack of view pane sized divs
+        that [command] => [reply] => [command] => [reply] .... though for v0
+        just getting the content on screen is far more important then looking
+        good.</li>
+        <li>have the 'next' command tile built but not focused. Thus if the
+        user scrolls down by hand or just starts typing then we focus the
+        single text area again. Thus the cycle repeats.
+        </li>
+      </ol>
 
-    <h1>FEATURES/TASKS</h1>
-    <ul>
-      <li>single text input ('default hint' is something like 'type help'),
-      though the usefulness of that would only work for the first few
-      attempts I guess.</li>
-      <li>actions object like now, ideally this could be swapped out</li>
-      <li>output object that defines how the output is displayed. I am not
-      quite sure how tightly cuppled this should be to the actions
-      object?</li>
-      <li>output must be able to determine the color and style of the output
-      div, see no.html as an example of what I want a single output tile to
-      look like.</li>
-    </ul>
+      <h1>FEATURES/TASKS</h1>
+      <ul>
+        <li>single text input ('default hint' is something like 'type help'),
+        though the usefulness of that would only work for the first few
+        attempts I guess.</li>
+        <li>actions object like now, ideally this could be swapped out</li>
+        <li>output object that defines how the output is displayed. I am not
+        quite sure how tightly cuppled this should be to the actions
+        object?</li>
+        <li>output must be able to determine the color and style of the output
+        div, see no.html as an example of what I want a single output tile to
+        look like.</li>
+      </ul>
+    </div>
   </div>
 </div>
 
-  <script src="assets/vendor/html5.js"></script>
   <script src="assets/vendor/jquery.min.js"></script>
+  <script src="assets/vendor/html5.js"></script>
   <script src="assets/vendor/fittext/jquery.fittext.js"></script>
   <script src="assets/javascript/terminal.js"></script>
   <script src="assets/javascript/hacklist.js"></script>
   <script src="assets/javascript/ben_actions.js"></script>
   <script>
+
     function CLI (inputID,outputID,actions){
-      window.reload = function(){ window.location.reload() }
       this.in = $(inputID) // NOTE this is expected to be an input not the div
       this.out= $(outputID)
       this.actions = new ActionSet('instance',actions) 
@@ -109,23 +125,14 @@
                                        self.in.focus()
                                      }
                     , focus        : function(){ return this.in.focus() }
-                    , addTile      : function(type,input,body){ 
-                                       // TODO it might be nice that type could take an array
-                                       //tile = $( "<div class='" + type + " tile'><span class='input'>&nbsp;</span><span class='output'>&nbsp;</span></div>" )
-                                       tile = $( "<div class='" + type + " tile'></div>" )
+                    , addTile      : function(type,question,answer){ 
+                                       //this.out.prepend( mktile(type,this.escape(input),body) ) 
+                                       tile = $( "<div class='" + type + " tile'><h1>"+question+"</h1><div class='answer'>"+answer+"</div></div>" )
                                        this.out.prepend( tile )
+                                       size = Math.max( 10, Math.min( tile.innerWidth()/answer.length , tile.innerHeight() ))
+                                       tile.find('div.answer').first().css('font-size', size + 'px')
+                                       tile.find('div.answer').first().css('line-height', size + 'px')
 
-                                       max_dim = Math.min( tile.innerWidth(), tile.innerHeight())
-
-                                       h1 = $('<h1></h1>')
-                                       h1.html( this.escape(input) ).fitText(.95,{ minFontSize: (max_dim * .05) + 'px', maxFontSize: (max_dim * .15) + 'px' }).change()
-                                       tile.append( h1 )
-
-                                       h2 = $('<h2></h2>')
-                                       h2.html(body).fitText(1,{ minFontSize: (max_dim * .15) + 'px', maxFontSize: (max_dim * .9) + 'px' }).change()
-                                       tile.append( h2 )
-
-                                       return tile
                                      }
                     , escape       : function(content){ return content.replace(/</g,'&lt;').replace(/>/g,'&gt;') } // might need more cleaning 
                     , getContent   : function(){ return this.in.val() }
@@ -189,20 +196,10 @@
 
 
 
-    function focusCLI(){ $('#CLI input').focus() }
-    function addTile(type,body){ $('#tiles').prepend( "<div class='" + type + " tile'>" + body + "</div>" ) }
-    function parseCommand(){
-      CLI = $('#CLI input')
-      content = CLI.val() // collect content from CLI
-      content_escaped = CLI.val().replace(/</g,'&lt;').replace(/>/g,'&gt;') // might need more cleaning
-      CLI.val('') // reset CLI
-      addTile('response','COMMAND: ' + content_escaped + 'REPLY: ' + content )
-      focusCLI()
-    }
+
     jQuery(function($, undefined) {
       console.info('loaded')
-      //focusCLI()
-      window.cli = new CLI('#CLI input','#tiles',ben_actions)
+      window.cli = new CLI('#CLI input','#CLI #tiles',ben_actions)
     })
   </script>
 

@@ -12,6 +12,7 @@
 (function( $ ){
 
   $.fn.fitText = function( kompressor, options ) {
+    console.info('FIT',options)
 
     // Setup options
     var compressor = kompressor || 1,
