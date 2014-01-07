@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .good, .behind, .urgent { font-style:bolder; }
+    .ahead { 
+       background-color: #7fd800;
+       color: #FFF;
+    }
+    .rushing ,
+    .behind { 
+       background-color: #ffb200;
+       color: #000;
+    }
+    .urgent { 
+       background-color: #e50000;
+       color: #FFF;
+    }
+
+  </style>
+
+</head>
+<body>
+<div id='nano'>
+
+  <h1>Idea for pace formula</h1>
+  <p> The table below has been generated assuming that each contract is
+  24 $total_weeks and the course is 12 $total_lessons. The formula is as
+  follows: </p>
+  <code> 
+    $pace = int(($lessons_complete/$total_lessons)*10) - int(($weeks/$total_weeks)*10) 
+  </code>
+  <h2>Grades of pace:</h2>
+    <dl>
+      <dt>Rushing:</dt>
+      <dd>$pace > 4</dd>
+      <dt>Ahead:</dt>
+      <dd>$pace > 1</dd>
+      <dt>On Pace:</dt>
+      <dd>1 >= $pace >= -1</dd>
+      <dt>Behind:</dt>
+      <dd>-1 > $pace</dd>
+      <dt>Urgent:</dt>
+      <dd>-4 > $pace</dd>
+    </dl>
+  <hr>
+
+
+  <table>
+    <tr>
+      <th class=''>weeks:</th>
+      <th class=''>1</th>
+      <th class=''>2</th>
+      <th class=''>3</th>
+      <th class=''>4</th>
+      <th class=''>5</th>
+      <th class=''>6</th>
+      <th class=''>7</th>
+      <th class=''>8</th>
+      <th class=''>9</th>
+      <th class=''>10</th>
+      <th class=''>11</th>
+      <th class=''>12</th>
+      <th class=''>13</th>
+      <th class=''>14</th>
+      <th class=''>15</th>
+      <th class=''>16</th>
+      <th class=''>17</th>
+      <th class=''>18</th>
+      <th class=''>19</th>
+      <th class=''>20</th>
+      <th class=''>21</th>
+      <th class=''>22</th>
+      <th class=''>23</th>
+      <th class=''>24</th>
+
+    </tr>
+    <tr>
+      <td class=''>L0:</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-4</td>
+      <td class='behind'>-4</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-6</td>
+      <td class='urgent'>-6</td>
+      <td class='urgent'>-7</td>
+      <td class='urgent'>-7</td>
+      <td class='urgent'>-7</td>
+      <td class='urgent'>-8</td>
+      <td class='urgent'>-8</td>
+      <td class='urgent'>-9</td>
+      <td class='urgent'>-9</td>
+      <td class='urgent'>-10</td>
+
+    </tr>
+    <tr>
+      <td class=''>L1:</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-4</td>
+      <td class='behind'>-4</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-6</td>
+      <td class='urgent'>-6</td>
+      <td class='urgent'>-7</td>
+      <td class='urgent'>-7</td>
+      <td class='urgent'>-7</td>
+      <td class='urgent'>-8</td>
+      <td class='urgent'>-8</td>
+      <td class='urgent'>-9</td>
+      <td class='urgent'>-9</td>
+      <td class='urgent'>-10</td>
+
+    </tr>
+    <tr>
+      <td class=''>L2:</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-4</td>
+      <td class='behind'>-4</td>
+      <td class='behind'>-4</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-6</td>
+      <td class='urgent'>-6</td>
+      <td class='urgent'>-6</td>
+      <td class='urgent'>-7</td>
+      <td class='urgent'>-7</td>
+      <td class='urgent'>-8</td>
+      <td class='urgent'>-8</td>
+      <td class='urgent'>-9</td>
+
+    </tr>
+    <tr>
+      <td class=''>L3:</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-4</td>
+      <td class='behind'>-4</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-6</td>
+      <td class='urgent'>-6</td>
+      <td class='urgent'>-7</td>
+      <td class='urgent'>-7</td>
+      <td class='urgent'>-8</td>
+
+    </tr>
+    <tr>
+      <td class=''>L4:</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-4</td>
+      <td class='behind'>-4</td>
+      <td class='behind'>-4</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-6</td>
+      <td class='urgent'>-6</td>
+      <td class='urgent'>-7</td>
+
+    </tr>
+    <tr>
+      <td class=''>L5:</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-4</td>
+      <td class='behind'>-4</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-5</td>
+      <td class='urgent'>-6</td>
+
+    </tr>
+    <tr>
+      <td class=''>L6:</td>
+      <td class='rushing'>5</td>
+      <td class='rushing'>5</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-4</td>
+      <td class='behind'>-4</td>
+      <td class='urgent'>-5</td>
+
+    </tr>
+    <tr>
+      <td class=''>L7:</td>
+      <td class='rushing'>5</td>
+      <td class='rushing'>5</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-4</td>
+      <td class='behind'>-4</td>
+      <td class='urgent'>-5</td>
+
+    </tr>
+    <tr>
+      <td class=''>L8:</td>
+      <td class='rushing'>6</td>
+      <td class='rushing'>6</td>
+      <td class='rushing'>5</td>
+      <td class='rushing'>5</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-3</td>
+      <td class='behind'>-4</td>
+
+    </tr>
+    <tr>
+      <td class=''>L9:</td>
+      <td class='rushing'>7</td>
+      <td class='rushing'>7</td>
+      <td class='rushing'>6</td>
+      <td class='rushing'>6</td>
+      <td class='rushing'>5</td>
+      <td class='rushing'>5</td>
+      <td class='rushing'>5</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-2</td>
+      <td class='behind'>-3</td>
+
+    </tr>
+    <tr>
+      <td class=''>L10:</td>
+      <td class='rushing'>8</td>
+      <td class='rushing'>8</td>
+      <td class='rushing'>7</td>
+      <td class='rushing'>7</td>
+      <td class='rushing'>6</td>
+      <td class='rushing'>6</td>
+      <td class='rushing'>6</td>
+      <td class='rushing'>5</td>
+      <td class='rushing'>5</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+      <td class=''>-1</td>
+      <td class='behind'>-2</td>
+
+    </tr>
+    <tr>
+      <td class=''>L11:</td>
+      <td class='rushing'>9</td>
+      <td class='rushing'>9</td>
+      <td class='rushing'>8</td>
+      <td class='rushing'>8</td>
+      <td class='rushing'>7</td>
+      <td class='rushing'>7</td>
+      <td class='rushing'>7</td>
+      <td class='rushing'>6</td>
+      <td class='rushing'>6</td>
+      <td class='rushing'>5</td>
+      <td class='rushing'>5</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>0</td>
+      <td class=''>0</td>
+      <td class=''>-1</td>
+
+    </tr>
+    <tr>
+      <td class=''>L12:</td>
+      <td class='rushing'>10</td>
+      <td class='rushing'>10</td>
+      <td class='rushing'>9</td>
+      <td class='rushing'>9</td>
+      <td class='rushing'>8</td>
+      <td class='rushing'>8</td>
+      <td class='rushing'>8</td>
+      <td class='rushing'>7</td>
+      <td class='rushing'>7</td>
+      <td class='rushing'>6</td>
+      <td class='rushing'>6</td>
+      <td class='rushing'>5</td>
+      <td class='rushing'>5</td>
+      <td class='rushing'>5</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>4</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>3</td>
+      <td class='ahead'>2</td>
+      <td class='ahead'>2</td>
+      <td class=''>1</td>
+      <td class=''>1</td>
+      <td class=''>0</td>
+
+    </tr>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .good, .warning, .urgent { font-style:bolder; }
+    .normal { font-style: none; }
+    .good { 
+       background-color: #7fd800;
+       color: #FFF;
+    }
+    .warning { 
+       background-color: #ffb200;
+       color: #000;
+    }
+    .urgent { 
+       background-color: #e50000;
+       color: #FFF;
+    }
+
+  </style>
+
+</head>
+<body>
+<div id='nano'>
+  <h1>Proposed changes:</h1>
+    <ul>
+      <li>use of color for quick scanning</li>
+      <li>count down timer in weeks to complete of contract</li>
+      <li>a 'gauge' of on-pace see pace.html<li>
+  <table>
+    <tr>
+      <th>Course</th>
+      <th>Item</th>
+      <th>Attempt</th>
+      <th>Date Handin</th>
+      <th>Student</th>
+      <th>Weeks to Complete</th>
+      <th>On Pace</th>
+      <th>Date Graded</th>
+      <th>Passed</th>
+    </tr>
+    <tr>
+      <td>some course</td>
+      <td>some lesson</td>
+      <td class='warning'>2</td>
+      <td>some date</td>
+      <td>some normal student</td>
+      <td class='normal'>13</td>
+      <td class='normal'>on pace</td>
+      <td><a href='#'>Grade</a></td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <td>some course</td>
+      <td>some lesson</td>
+      <td class='normal'>1</td>
+      <td>some date</td>
+      <td>some new student</td>
+      <td class='new'>24</td>
+      <td class='normal'>on pace</td>
+      <td><a href='#'>Grade</a></td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <td>some course</td>
+      <td>some lesson</td>
+      <td class='normal'>1</td>
+      <td>some date</td>
+      <td>some near finished on time student</td>
+      <td class='warning'>3</td>
+      <td class='normal'>on pace</td>
+      <td><a href='#'>Grade</a></td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <td>some course</td>
+      <td>some lesson</td>
+      <td class='warning'>2</td>
+      <td>some date</td>
+      <td>some student starting to fall behind</td>
+      <td class='normal'>10</td>
+      <td class='warning'>falling</td>
+      <td><a href='#'>Grade</a></td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <td>some course</td>
+      <td>some lesson</td>
+      <td class='normal'>1</td>
+      <td>some date</td>
+      <td>some student rushing to finish</td>
+      <td class='urgent'>1</td>
+      <td class='urgent'>behind</td>
+      <td><a href='#'>Grade</a></td>
+      <td>--</td>
+    </tr>
+    <tr>
+      <td>some course</td>
+      <td>some lesson</td>
+      <td class='urgent'>4</td>
+      <td>some date</td>
+      <td>some student ahead of schedule</td>
+      <td class='normal'>12</td>
+      <td class='good'>ahead</td>
+      <td><a href='#'>Grade</a></td>
+      <td>--</td>
+    </tr>
+
+</body>
+</html>
+
