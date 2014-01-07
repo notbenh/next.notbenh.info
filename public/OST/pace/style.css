@@ -1,0 +1,17 @@
+.good, .behind, .urgent { font-style:bolder; }
+.new ,
+.ahead { 
+   background-color: #7fd800;
+   color: #FFF;
+}
+.warning ,
+.rushing ,
+.behind { 
+   background-color: #ffb200;
+   color: #000;
+}
+.urgent { 
+   background-color: #e50000;
+   color: #FFF;
+}
+
