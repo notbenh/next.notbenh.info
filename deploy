@@ -1,5 +1,5 @@
 #!/bin/sh
 #coffee -cb public/assets/javascript/*.coffee && /
 git push live master
-git push next master
+#git push next master
 git push origin master

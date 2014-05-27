@@ -67,6 +67,14 @@ ben_actions =
     EXAMPLES: ['pick taco burger pasta']
     NOTE: 'Currently this verb will split the input on spaces, thus you might not get what you want. I mention this as it might change later.'
   ]
+  rword : [
+    (len) ->
+      throw 'rword requires a positive integer' if parseInt(len) != len and len <= 0
+      word = [String.fromCharCode( getRandomInt(97,122) ) for i in [1 .. parseInt(len)] ]
+      return word[0].join('')
+    'build up a random collection of characters'
+    EXAMPLES: ['rword 4']
+  ]
   word : [
     (word) -> 
       word = new RegExp word

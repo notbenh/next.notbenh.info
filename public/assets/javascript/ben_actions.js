@@ -81,6 +81,27 @@ ben_actions = {
       NOTE: 'Currently this verb will split the input on spaces, thus you might not get what you want. I mention this as it might change later.'
     }
   ],
+  rword: [
+    function(len) {
+      var i, word;
+      if (parseInt(len) !== len && len <= 0) {
+        throw 'rword requires a positive integer';
+      }
+      word = [
+        (function() {
+          var _i, _ref, _results;
+          _results = [];
+          for (i = _i = 1, _ref = parseInt(len); 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
+            _results.push(String.fromCharCode(getRandomInt(97, 122)));
+          }
+          return _results;
+        })()
+      ];
+      return word[0].join('');
+    }, 'build up a random collection of characters', {
+      EXAMPLES: ['rword 4']
+    }
+  ],
   word: [
     function(word) {
       var wordset, _i, _len;
