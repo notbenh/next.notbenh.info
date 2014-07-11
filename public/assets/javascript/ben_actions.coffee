@@ -61,6 +61,11 @@ ben_actions =
     'ask the computer if you could be doing something, though I am guessing that you would want to ask if you should.'
     EXAMPLES: ['could I buy a new watch', 'could I get another car']
   ]
+  will : [
+    -> if getRandomInt(0,1) then 'yes' else 'no'
+    'ask the computer if you will do something'
+    EXAMPLES: ['will I fall asleep in the next hour','will I be president']
+  ]
   pick : [
     (input) -> getRandomArrayValue qw input
     'pick a random instance from the supplied input'

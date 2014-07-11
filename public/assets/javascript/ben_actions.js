@@ -73,6 +73,17 @@ ben_actions = {
       EXAMPLES: ['could I buy a new watch', 'could I get another car']
     }
   ],
+  will: [
+    function() {
+      if (getRandomInt(0, 1)) {
+        return 'yes';
+      } else {
+        return 'no';
+      }
+    }, 'ask the computer if you will do something', {
+      EXAMPLES: ['will I fall asleep in the next hour', 'will I be president']
+    }
+  ],
   pick: [
     function(input) {
       return getRandomArrayValue(qw(input));
