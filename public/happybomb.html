@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style>
+      div { position:absolute;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            display:none;
+            border:10px solid #000;
+      }
+      div h1,
+      div h2,
+      div h3 { text-align: center; }
+      #happy, #boom { 
+        font-weight: bolder;
+        color:#FFF;
+        -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: black;
+        font-size:400%;
+      }
+      #boom {background-color: #F00; }
+      .randomImg{}
+    </style>
+  </head>
+  <body>
+    <div><h3>wait for it</h3></div>
+    <div wait='2000' ><h3>...waait for it</h3></div>
+    <div wait='1000'><h2>....WWAAIITT FFOORR IITT</h2></div>
+    <div wait='500' id='boom'><h1>!!! BOOOMM !!!</h1></div>
+    <div id='happy' class='randImg'><h1>happy bomb</h1></div>
+    <script type='text/javascript'>
+
+      var imgs = new Array(
+                   'http://excusememe.com/pics/images/1300563622_cat_gif3.gif'
+                 , 'http://i187.photobucket.com/albums/x300/Vampyre111/happycat.gif'
+                 , 'http://37.media.tumblr.com/tumblr_llq20plYFw1qg20muo1_500.gif'
+                 )
+
+      function TOG(item){
+        $(item).show()
+        var next = $(item).next().get(0)
+        var wait = $(item).attr('wait')
+        wait = typeof wait === 'undefined' ? 5000 : wait
+
+        // TODO: currently hardcoding DIV but seems like a hack
+        if( next !== undefined && next.tagName === 'DIV'){
+          setTimeout( function(){ $(item).hide(); TOG(next) }, wait )
+        }
+      }
+
+      $(function() { 
+        for(i=0;i<imgs.length;i++){
+          console.info('IMG:',imgs[i])
+          img = new Image
+          img.src = imgs[i] //preload
+        }
+
+        $('.randImg').each(function(){
+          var img = imgs[Math.floor(Math.random()*imgs.length)]
+          console.info(img,this)
+          $(this).css('background-image','url(' + img + ')')
+        })
+        TOG( $('div').first() ) // kick start the process
+      }) 
+
+    </script>
+  </body>
+</html>
