@@ -59,7 +59,7 @@ ben_actions = {
   about: LINK('http://about.notbenh.info', 'about me'),
   github: LINK('https://github.com/notbenh', 'my github account'),
   blog: LINK('http://blog.notbenh.info', 'the thing I call a blog'),
-  happy: LINK('http://notbenh.info/happybomb.info', '**HAPPYBOMB**'),
+  happy: LINK('http://notbenh.info/happybomb.html', '**HAPPYBOMB**'),
   should: [
     function(question) {
       return 'no';
