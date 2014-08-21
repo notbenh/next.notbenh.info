@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style>
+      div { position:absolute;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            display:none;
+            border:10px solid #000;
+      }
+      div h1,
+      div h2,
+      div h3 { text-align: center; }
+      #happy, #boom { 
+        font-weight: bolder;
+        color:#FFF;
+        -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: black;
+        font-size:400%;
+      }
+      #boom {background-color: #F00; }
+      .randomImg{}
+    </style>
+  </head>
+  <body>
+    <div><h3>omgomgomgomgomgomg</h3></div>
+    <div wait='2000' ><h3>OMG!OMG! FREAKOUT!</h3></div>
+    <div wait='1000'><h2>OOOHHHMMMGGG!!FFREEAAKKINNNGGGOUUTT!!!!</h2></div>
+    <div wait='500' id='boom'><h1>!!! AAAAHHHH !!!</h1></div>
+    <div id='happy' class='randImg'><h1>...just kidding.</h1></div>
+    <script type='text/javascript'>
+
+      // just a default list of images to start
+      var imgs = new Array(
+                   'http://notbenh.info/media/rotating_pug.gif'
+                  ,'http://fc01.deviantart.net/fs23/i/2007/327/c/8/Calm_Sunset_by_Cannabian.jpg'
+                  ,'http://goldenageofgaia.com/wp-content/uploads/2014/04/Ashira-4-calm.jpg'
+                 )
+
+      function TOG(item){
+        $(item).show()
+        var next = $(item).next().get(0)
+        var wait = $(item).attr('wait')
+        wait = typeof wait === 'undefined' ? 5000 : wait
+
+        // TODO: currently hardcoding DIV but seems like a hack
+        if( next !== undefined && next.tagName === 'DIV'){
+          setTimeout( function(){ $(item).hide(); TOG(next) }, wait )
+        }
+      }
+
+      function getJsonFromUrlParam() { // slight modification from code from StackOverflow http://stackoverflow.com/questions/8486099/how-do-i-parse-a-url-query-parameters-in-javascript
+        var query = location.search.substr(1);
+        var result = {};
+        query.split("&").forEach(function(part) {
+          var item = part.split("=");
+          result[item[0]] = decodeURIComponent(item[1]);
+        });
+        return result;
+      }
+
+      $(function() {
+        var params = getJsonFromUrlParam()
+
+        if(params['text']){
+          $('div#happy h1').html(params['text'])
+        }
+
+        if(params['img']){
+          imgs = new Array(params['img'])
+        }
+
+        for(i=0;i<imgs.length;i++){
+          img = new Image
+          img.src = imgs[i] //preload
+        }
+
+        $('.randImg').each(function(){
+          var img = imgs[Math.floor(Math.random()*imgs.length)]
+          $(this).css('background-image','url(' + img + ')')
+        })
+        TOG( $('div').first() ) // kick start the process
+      }) 
+
+    </script>
+  </body>
+</html>
