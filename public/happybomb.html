@@ -34,6 +34,7 @@
     <div id='happy' class='randImg'><h1>happy bomb</h1></div>
     <script type='text/javascript'>
 
+      // just a default list of happybombs to start
       var imgs = new Array(
                    'http://excusememe.com/pics/images/1300563622_cat_gif3.gif'
                  , 'http://i187.photobucket.com/albums/x300/Vampyre111/happycat.gif'
@@ -53,16 +54,34 @@
         }
       }
 
-      $(function() { 
+      function getJsonFromUrlParam() { // slight modification from code from StackOverflow http://stackoverflow.com/questions/8486099/how-do-i-parse-a-url-query-parameters-in-javascript
+        var query = location.search.substr(1);
+        var result = {};
+        query.split("&").forEach(function(part) {
+          var item = part.split("=");
+          result[item[0]] = decodeURIComponent(item[1]);
+        });
+        return result;
+      }
+
+      $(function() {
+        var params = getJsonFromUrlParam()
+
+        if(params['text']){
+          $('div#happy h1').html(params['text'])
+        }
+
+        if(params['img']){
+          imgs = new Array(params['img'])
+        }
+
         for(i=0;i<imgs.length;i++){
-          console.info('IMG:',imgs[i])
           img = new Image
           img.src = imgs[i] //preload
         }
 
         $('.randImg').each(function(){
           var img = imgs[Math.floor(Math.random()*imgs.length)]
-          console.info(img,this)
           $(this).css('background-image','url(' + img + ')')
         })
         TOG( $('div').first() ) // kick start the process
