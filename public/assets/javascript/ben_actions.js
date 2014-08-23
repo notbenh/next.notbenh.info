@@ -60,6 +60,9 @@ ben_actions = {
   github: LINK('https://github.com/notbenh', 'my github account'),
   blog: LINK('http://blog.notbenh.info', 'the thing I call a blog'),
   happy: LINK('http://notbenh.info/happybomb.html', '**HAPPYBOMB**'),
+  freakout: LINK('http://notbenh.info/freakout.html', '**FREAKOUT**'),
+  no: LINK('http://notbenh.info/no.html', '**NO**'),
+  yes: LINK('http://notbenh.info/yes.html', '**YES**'),
   should: [
     function(question) {
       return 'no';
