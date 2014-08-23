@@ -224,14 +224,6 @@ ben_actions = {
       NOTE: "the total of someInt does not need to total 100 (as in 100%) rather the decision is based on random value between 1 and total."
     }
   ],
-  barrel: [
-    function(type) {
-      if (type === 'roll') {
-        $('#terminal').addClass('barrel_roll');
-        return setTimeout("$('#terminal').removeClass('barrel_roll')", 4200);
-      }
-    }
-  ],
   flip: [
     function() {
       if (getRandomInt(0, 1)) {

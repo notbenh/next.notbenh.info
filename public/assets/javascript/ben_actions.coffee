@@ -163,13 +163,13 @@ ben_actions =
     SYNTAX: "someInt instruction; someInt instruction; ...  someInt instruction"
     NOTE: "the total of someInt does not need to total 100 (as in 100%) rather the decision is based on random value between 1 and total."
   ]
-  barrel: [
-    (type) ->
-      if type == 'roll'
-        $('#terminal').addClass('barrel_roll')
-        setTimeout("$('#terminal').removeClass('barrel_roll')",4200);
-    # easter egg
-  ]
+  #barrel: [ 
+  #  # easter egg
+  #  (what) ->
+  #    if what == 'roll'
+  #      $('#terminal').addClass('barrel_roll')
+  #      setTimeout("$('#terminal').removeClass('barrel_roll')",4200);
+  #]
   flip : [
     -> if getRandomInt(0,1) then 'heads' else 'tails'
     'flip a coin'

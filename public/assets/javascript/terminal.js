@@ -29,8 +29,7 @@ ActionSet = (function() {
       args = args.join(' ');
     }
     if (this.actions[verb] === void 0) {
-      console.error(verb, this.help(verb));
-      throw 'umm';
+      throw 'umm "' + verb + '" is not a known verb.';
     }
     result = this.actions[verb].action(args);
     _ref = this._custom_actions;

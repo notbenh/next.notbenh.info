@@ -9,8 +9,8 @@ class ActionSet
     verb = args.shift()
     args = args.join(' ') if arguments.length == 1
     if @actions[verb] == undefined
-      console.error verb, this.help verb
-      throw 'umm'
+      #console.error verb, this.help verb
+      throw ' umm "' + verb + '" is not a known verb.'
     result = @actions[verb].action(args)
     for c_action in @_custom_actions
       result = c_action(result)
