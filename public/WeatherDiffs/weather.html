@@ -1,0 +1,89 @@
+<DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+    <script>
+      $(function() {
+        $( "#data" ).tabs();
+        $( "#cities-toggle" ).buttonset();
+        $( "#cities-toggle input").each(function(){
+          $(this).click(function(){ 
+            //console.info($(this).attr('id'))
+            $('.' + $(this).attr('id') ).toggle()
+          })
+        })
+
+      });
+    </script>
+  </head>
+  <body>
+    <div id='cities-toggle'>
+      <input type="checkbox" id="vienna"><label for="vienna">Vienna</label></input>
+      <input type="checkbox" id="frankfurt"><label for="frankfurt">Frankfurt</label></input>
+      <input type="checkbox" id="munich"><label for="munich">M&uuml;nchen</label></input>
+      <input type="checkbox" id="nurnberg"><label for="nurnberg">N&uuml;rnberg</label></input>
+      <input type="checkbox" id="portland"><label for="portland">Portland</label></input>
+    </div>
+
+    <div id='data'>
+      <ul>
+        <li><a href='#average-raindays'>Rain Days</a></li>
+        <li><a href='#average-rainfall'>Rainfall</a></li>
+        <li><a href='#average-humidity'>Humidity</a></li>
+        <li><a href='#average-sunshine'>Sunshine</a></li>
+        <li><a href='#average-temperature'>Temperature</a></li>
+        <li><a href='#average-windspeed'>Windspeed</a></li>
+      </ul>
+
+     <div id='average-raindays'>
+        <img class='vienna' src='./average-raindays-austria-vienna.png'>
+        <img class='frankfurt' src='./average-raindays-germany-frankfurt-am-main.png'>
+        <img class='munich' src='./average-raindays-germany-munchen.png'>
+        <img class='nurnberg' src='./average-raindays-germany-nurnberg.png'>
+        <img class='portland' src='./average-raindays-united-states-of-america-portland.png'>
+      </div>
+
+      <div id='average-rainfall'>
+        <img class='vienna' src='./average-rainfall-austria-vienna-inches.png'>
+        <img class='frankfurt' src='./average-rainfall-germany-frankfurt-am-main-inches.png'>
+        <img class='munich' src='./average-rainfall-germany-munchen-inches.png'>
+        <img class='nurnberg' src='./average-rainfall-germany-nurnberg-inches.png'>
+        <img class='portland' src='./average-rainfall-united-states-of-america-portland-inches.png'>
+      </div>
+
+      <div id='average-humidity'>
+        <img class='vienna' src='./average-relative-humidity-austria-vienna.png'>
+        <img class='frankfurt' src='./average-relative-humidity-germany-frankfurt-am-main.png'>
+        <img class='munich' src='./average-relative-humidity-germany-munchen.png'>
+        <img class='nurnberg' src='./average-relative-humidity-germany-nurnberg.png'>
+        <img class='portland' src='./average-relative-humidity-united-states-of-america-portland.png'>
+      </div>
+
+      <div id='average-sunshine'>
+        <img class='vienna' src='./average-sunshine-austria-vienna.png'>
+        <img class='frankfurt' src='./average-sunshine-germany-frankfurt-am-main.png'>
+        <img class='munich' src='./average-sunshine-germany-munchen.png'>
+        <img class='nurnberg' src='./average-sunshine-germany-nurnberg.png'>
+        <img class='portland' src='./average-sunshine-united-states-of-america-portland.png'>
+      </div>
+
+      <div id='average-temperature'>
+        <img class='vienna' src='./average-temperature-austria-vienna-fahrenheit.png'>
+        <img class='frankfurt' src='./average-temperature-germany-frankfurt-am-main-fahrenheit.png'>
+        <img class='munich' src='./average-temperature-germany-munchen-fahrenheit.png'>
+        <img class='nurnberg' src='./average-temperature-germany-nurnberg-fahrenheit.png'>
+        <img class='portland' src='./average-temperature-united-states-of-america-portland-fahrenheit.png'>
+      </div>
+      
+      <div id='average-windspeed'>
+        <img class='vienna' src='./average-wind-speed-austria-vienna.png'>
+        <img class='nurnberg' src='./average-wind-speed-germany-nurnberg.png'>
+        <img class='portland' src='./average-wind-speed-united-states-of-america-portland.png'>
+      </div>
+
+     </div>
+  </body>
+</html>
