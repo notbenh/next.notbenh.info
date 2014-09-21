@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style>
+      div { position:absolute;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            display:none;
+            border:10px solid #000;
+      }
+      div h1,
+      div h2,
+      div h3 { text-align: center; }
+      #awesome, #boom { 
+        font-weight: bolder;
+        color:#FFF;
+        -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: black;
+        font-size:400%;
+      }
+      #boom {background-color: #F00; }
+      .randomImg{}
+    </style>
+  </head>
+  <body>
+    <div wait='2000'><h3>wait for it</h3></div>
+    <div wait='1000'><h3>...waait for it</h3></div>
+    <div wait='700'><h2>....WWAAIITT FFOORR IITT</h2></div>
+    <div wait='500' id='boom'><h1>!!! BOOOMM !!!</h1></div>
+    <div id='awesome' class='blink'><h1>NO YOU ARE MORE AWESOME!</h1></div>
+    <script type='text/javascript'>
+
+      function TOG(item){
+        $(item).show()
+        var next = $(item).next().get(0)
+        var wait = $(item).attr('wait')
+        wait = typeof wait === 'undefined' ? 5000 : wait
+
+        // TODO: currently hardcoding DIV but seems like a hack
+        if( next !== undefined && next.tagName === 'DIV'){
+          setTimeout( function(){ $(item).hide(); TOG(next) }, wait )
+        }
+      }
+
+      function getJsonFromUrlParam() { // slight modification from code from StackOverflow http://stackoverflow.com/questions/8486099/how-do-i-parse-a-url-query-parameters-in-javascript
+        var query = location.search.substr(1);
+        var result = {};
+        query.split("&").forEach(function(part) {
+          var item = part.split("=");
+          result[item[0]] = decodeURIComponent(item[1]);
+        });
+        return result;
+      }
+
+      function cycleColors (dom,wait,colors){
+        console.info(dom,wait,colors)
+        colors.forEach( function(color){
+          console.info(color)
+          setTimeout( function() { 
+            dom.css('background-color',color)
+          }, wait)
+        })
+      }
+
+      $(function() {
+        var params = getJsonFromUrlParam()
+
+        if(params['text']){
+          $('div#awesome h1').html(params['text'])
+        }
+        TOG( $('div').first() ) // kick start the process
+
+        // HACK this should be fixed to be elegant
+        setInterval(function(){
+          setTimeout(function(){
+            $('.blink').css('background-color','#ff6666').css('-webkit-text-fill-color','#FFF')
+            setTimeout(function(){
+              $('.blink').css('background-color','#ff9999').css('-webkit-text-fill-color','#CCC')
+            },200)
+          }, 200)
+        }, 400)
+
+      }) 
+
+    </script>
+  </body>
+</html>
