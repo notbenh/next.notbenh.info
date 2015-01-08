@@ -53,7 +53,6 @@ NYI = function(note) {
 wordlist = ["sense cents scents since", "then than", "their there they're"];
 
 ben_actions = {
-  tdone: NYI('todo list manager'),
   suggest: LINK('https://github.com/notbenh/next.notbenh.info/issues', 'suggest issues via github'),
   resume: LINK('http://resume.notbenh.info', 'my r&eacute;sum&eacute;'),
   about: LINK('http://about.notbenh.info', 'about me'),
@@ -94,6 +93,17 @@ ben_actions = {
     }, 'pick a random instance from the supplied input', {
       EXAMPLES: ['pick taco burger pasta'],
       NOTE: 'Currently this verb will split the input on spaces, thus you might not get what you want. I mention this as it might change later.'
+    }
+  ],
+  numberwang: [
+    function() {
+      if (getRandomInt(0, 5000)) {
+        return 'that is numberwang';
+      } else {
+        return 'Oh bad luck, that is not numberwang';
+      }
+    }, 'numberwang, its a gameshow about numbers', {
+      EXAMPLES: ['numberwang 12']
     }
   ],
   rword: [
